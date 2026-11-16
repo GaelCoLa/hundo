@@ -15,9 +15,9 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
-      <section className="grid items-center gap-12 lg:grid-cols-2">
+      <section className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
         <div className="flex flex-col gap-6">
-          <h1 className="font-display text-[56px] font-black uppercase leading-[0.9] tracking-[-1px] sm:text-[80px] lg:text-[92px]">
+          <h1 className="font-display text-[56px] font-black uppercase leading-[0.94] tracking-[-1px] sm:text-[76px] lg:text-[84px]">
             {t("title")}
           </h1>
           <p className="max-w-[480px] text-lg leading-relaxed text-soft sm:text-[19px]">{t("subtitle")}</p>

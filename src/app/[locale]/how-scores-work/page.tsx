@@ -21,7 +21,7 @@ export default function HowScoresWorkPage() {
       <ol className="flex flex-col gap-4">
         {RULES.map((rule, i) => (
           <li key={rule.title} className="flex gap-5 rounded-[20px] bg-surface p-6">
-            <span className="font-display text-5xl font-black leading-none text-accent">{i + 1}</span>
+            <span className="w-8 shrink-0 text-center font-display text-5xl font-black leading-none text-accent">{i + 1}</span>
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-bold">{t(rule.title)}</h2>
               <p className="leading-relaxed text-soft">{t(rule.body)}</p>
