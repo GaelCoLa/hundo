@@ -32,6 +32,17 @@ npx supabase db push --remote                          # hundo-dev (proyecto enl
 npx supabase db push --remote=emrebckwpeuzcneeqkkn     # hundo-prod
 ```
 
+### Pruebas de la base de datos
+
+Corren dentro de una transacción que se deshace al final (no dejan datos). Contra hundo-dev:
+
+```bash
+npx supabase db query --remote --yes --file supabase/tests/score.sql        # nota de la comunidad
+npx supabase db query --remote --yes --file supabase/tests/ratings_rls.sql  # seguridad de calificaciones
+```
+
+Cada una termina mostrando `... tests passed`; si algo falla, Postgres corta con el mensaje de la verificación.
+
 ## Deploy
 
 - El código vive en GitHub; **Vercel** publica solo cada vez que se sube un cambio a la rama `main`.
