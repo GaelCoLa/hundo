@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "Hundo — Every game you beat deserves a score",
+    "description": "Rate the games you finish from 1 to 100, log your hours and finish date, and see the score the whole community gives."
+  },
+  "nav": {
+    "games": "Games",
+    "reviews": "Reviews",
+    "players": "Players",
+    "signIn": "Sign in",
+    "settings": "Settings",
+    "logOut": "Log out",
+    "language": "Language",
+    "home": "Hundo home",
+    "accountMenu": "Account menu"
+  },
+  "home": {
+    "title": "Every game you beat deserves a score.",
+    "subtitle": "Rate from 1 to 100, log your hours and finish date, and see the score the whole community gives.",
+    "rate": "Rate a game",
+    "browse": "Browse top games",
+    "example": "Example",
+    "exampleGame": "Resident Evil 2",
+    "exampleMeta": "2019, Survival horror",
+    "communityScoreFrom": "Community score from {count} players",
+    "howItWorks": "How scores work",
+    "scaleTitle": "The scale"
+  },
+  "scale": {
+    "mediocre": "Mediocre",
+    "fair": "Fair",
+    "decent": "Decent",
+    "good": "Good",
+    "great": "Great",
+    "excellent": "Excellent",
+    "masterpiece": "Masterpiece",
+    "range": "{min}–{max}",
+    "outOfTen": "{value} out of 10",
+    "ringLabel": "Score {score} out of 100, {category}"
+  },
+  "howScores": {
+    "title": "How scores work",
+    "intro": "Every player's vote weighs the same. Critics, streamers and first-time players all get exactly one rating per game. A review earns visibility only when other players mark it as helpful.",
+    "rule1Title": "Only real accounts count",
+    "rule1Body": "A rating counts toward a game's community score when its author has a verified email and an account at least 3 days old. Every rating still shows on its author's profile.",
+    "rule2Title": "Extremes are trimmed",
+    "rule2Body": "We sort the counted ratings, drop the highest 10% and the lowest 10%, and average the rest. A wave of 1s or 100s from people trying to push a game up or down barely moves it.",
+    "rule3Title": "No score without enough votes",
+    "rule3Body": "A game needs at least 5 counted ratings before it shows a community score or appears in rankings.",
+    "scaleTitle": "The scale"
+  },
+  "comingSoon": {
+    "title": "Coming soon",
+    "body": "This section is under construction. Check back after the next update."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}

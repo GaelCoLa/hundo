@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "Hundo — Cada juego que terminás merece una nota",
+    "description": "Calificá del 1 al 100 los juegos que terminás, registrá tus horas y la fecha en que lo terminaste, y mirá la nota que le da toda la comunidad."
+  },
+  "nav": {
+    "games": "Juegos",
+    "reviews": "Reseñas",
+    "players": "Jugadores",
+    "signIn": "Ingresar",
+    "settings": "Configuración",
+    "logOut": "Cerrar sesión",
+    "language": "Idioma",
+    "home": "Inicio de Hundo",
+    "accountMenu": "Menú de la cuenta"
+  },
+  "home": {
+    "title": "Cada juego que terminás merece una nota.",
+    "subtitle": "Calificá del 1 al 100, registrá tus horas y la fecha en que lo terminaste, y mirá la nota que le da toda la comunidad.",
+    "rate": "Calificar un juego",
+    "browse": "Ver los mejores juegos",
+    "example": "Ejemplo",
+    "exampleGame": "Resident Evil 2",
+    "exampleMeta": "2019, Survival horror",
+    "communityScoreFrom": "Nota de la comunidad según {count} jugadores",
+    "howItWorks": "Cómo se calcula la nota",
+    "scaleTitle": "La escala"
+  },
+  "scale": {
+    "mediocre": "Mediocre",
+    "fair": "Regular",
+    "decent": "Aceptable",
+    "good": "Bueno",
+    "great": "Muy bueno",
+    "excellent": "Excelente",
+    "masterpiece": "Obra maestra",
+    "range": "{min}–{max}",
+    "outOfTen": "{value} sobre 10",
+    "ringLabel": "Nota {score} sobre 100, {category}"
+  },
+  "howScores": {
+    "title": "Cómo se calcula la nota",
+    "intro": "El voto de cada jugador pesa lo mismo. Críticos, streamers y jugadores casuales tienen exactamente una calificación por juego. Una reseña gana visibilidad solo cuando otros jugadores la marcan como útil.",
+    "rule1Title": "Solo cuentan cuentas reales",
+    "rule1Body": "Una calificación cuenta para la nota de la comunidad cuando su autor verificó su email y su cuenta tiene al menos 3 días. Todas las calificaciones se siguen viendo en el perfil de quien las hizo.",
+    "rule2Title": "Se recortan los extremos",
+    "rule2Body": "Ordenamos las calificaciones que cuentan, descartamos el 10% más alto y el 10% más bajo, y promediamos el resto. Una ola de 1 o de 100 de gente que quiere subir o hundir un juego casi no lo mueve.",
+    "rule3Title": "Sin votos suficientes, no hay nota",
+    "rule3Body": "Un juego necesita al menos 5 calificaciones que cuenten para mostrar nota de la comunidad o aparecer en los rankings.",
+    "scaleTitle": "La escala"
+  },
+  "comingSoon": {
+    "title": "Muy pronto",
+    "body": "Esta sección está en construcción. Volvé después de la próxima actualización."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "back": "Volver al inicio"
+  }
+}
