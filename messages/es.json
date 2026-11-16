@@ -70,19 +70,23 @@
     "haveAccount": "¿Ya tenés cuenta?",
     "noAccount": "¿Nuevo en Hundo?",
     "checkEmailTitle": "Revisá tu email",
-    "checkEmailBody": "Te mandamos un enlace para confirmar tu cuenta. Abrilo para terminar el registro.",
+    "checkEmailBody": "Te mandamos un enlace para confirmar tu cuenta. Abrilo para terminar el registro. Si no lo ves en un par de minutos, revisá la carpeta de Spam.",
     "errors": {
       "too_short": "Tu usuario necesita al menos 3 caracteres.",
       "too_long": "Tu usuario puede tener como máximo 20 caracteres.",
       "invalid_chars": "Usá solo letras, números y guiones bajos en tu usuario.",
-      "username_taken": "Ese usuario ya existe. Probá con otro.",
+      "username_taken": "Ese usuario ya existe. Si es tuyo y nunca te llegó el email de confirmación, ingresá para pedir uno nuevo.",
       "invalid_email": "Ingresá un email válido.",
       "password_too_short": "Tu contraseña necesita al menos 8 caracteres.",
       "invalid_credentials": "Email o contraseña incorrectos.",
-      "email_not_confirmed": "Primero confirmá tu email. Buscá en tu bandeja el enlace que te mandamos.",
-      "confirm_failed": "No pudimos iniciar tu sesión con ese enlace. Si ya confirmaste tu email, ingresá con tu contraseña. Si no, registrate de nuevo para recibir otro enlace.",
-      "unknown": "Algo falló de nuestro lado. Probá de nuevo en un momento."
-    }
+      "email_not_confirmed": "Primero confirmá tu email. Revisá tu bandeja y la carpeta de Spam, o pedí un enlace nuevo abajo.",
+      "confirm_failed": "No pudimos iniciar tu sesión con ese enlace. Si ya confirmaste tu email, ingresá con tu contraseña. Si no, pedí un enlace nuevo abajo.",
+      "unknown": "Algo falló de nuestro lado. Probá de nuevo en un momento.",
+      "resend_too_soon": "Acabamos de mandarte uno. Esperá un minuto antes de pedir otro."
+    },
+    "resendCta": "Reenviar email de confirmación",
+    "resendHint": "Escribí tu email arriba y te mandamos un enlace nuevo.",
+    "resendDone": "Si ese email tiene una cuenta sin confirmar, ya va en camino un enlace nuevo. Revisá también Spam."
   },
   "settings": {
     "title": "Configuración",

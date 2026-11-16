@@ -70,19 +70,23 @@
     "haveAccount": "Already have an account?",
     "noAccount": "New to Hundo?",
     "checkEmailTitle": "Check your email",
-    "checkEmailBody": "We sent you a link to confirm your account. Open it to finish signing up.",
+    "checkEmailBody": "We sent you a link to confirm your account. Open it to finish signing up. If you don’t see it in a couple of minutes, check your Spam folder.",
     "errors": {
       "too_short": "Your username needs at least 3 characters.",
       "too_long": "Your username can have at most 20 characters.",
       "invalid_chars": "Use only letters, numbers and underscores in your username.",
-      "username_taken": "That username is taken. Try another one.",
+      "username_taken": "That username is taken. If it’s yours and you never got the confirmation email, log in to request a new one.",
       "invalid_email": "Enter a valid email address.",
       "password_too_short": "Your password needs at least 8 characters.",
       "invalid_credentials": "Wrong email or password.",
-      "email_not_confirmed": "Confirm your email first. Check your inbox for the link we sent.",
-      "confirm_failed": "We couldn’t sign you in with that link. If you already confirmed your email, log in with your password. Otherwise, sign up again to get a new link.",
-      "unknown": "Something went wrong on our side. Try again in a moment."
-    }
+      "email_not_confirmed": "Confirm your email first. Check your inbox and Spam folder, or request a new link below.",
+      "confirm_failed": "We couldn’t sign you in with that link. If you already confirmed your email, log in with your password. Otherwise, request a new link below.",
+      "unknown": "Something went wrong on our side. Try again in a moment.",
+      "resend_too_soon": "We just sent one. Wait a minute before requesting another."
+    },
+    "resendCta": "Resend confirmation email",
+    "resendHint": "Type your email above and we’ll send you a new link.",
+    "resendDone": "If that email has an unconfirmed account, a new link is on its way. Check your Spam folder too."
   },
   "settings": {
     "title": "Settings",

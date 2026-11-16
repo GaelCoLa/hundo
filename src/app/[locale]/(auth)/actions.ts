@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { validateUsername } from "@/lib/username";
+import { isUsernameTaken } from "@/lib/username-db";
+import { safeNextPath } from "@/lib/safe-next";
 import { routing, type Locale } from "@/i18n/routing";
 
 export type AuthErrorCode =
@@ -17,9 +19,10 @@ export type AuthErrorCode =
   | "password_too_short"
   | "invalid_credentials"
   | "email_not_confirmed"
+  | "resend_too_soon"
   | "unknown";
 
-export type AuthState = { error?: AuthErrorCode; checkEmail?: boolean };
+export type AuthState = { error?: AuthErrorCode; checkEmail?: boolean; resent?: boolean };
 
 const MIN_PASSWORD = 8;
 
@@ -27,11 +30,6 @@ function safeLocale(value: string): Locale {
   return (routing.locales as readonly string[]).includes(value) ? (value as Locale) : routing.defaultLocale;
 }
 
-/** Solo rutas internas ("/settings"), nunca URLs externas: evita redirecciones maliciosas. */
-function safeNext(value: FormDataEntryValue | null): string {
-  const next = typeof value === "string" ? value : "";
-  return next.startsWith("/") && !next.startsWith("//") ? next : "/";
-}
 
 export async function signUp(localeArg: string, _prev: AuthState, formData: FormData): Promise<AuthState> {
   const locale = safeLocale(localeArg);
@@ -48,12 +46,7 @@ export async function signUp(localeArg: string, _prev: AuthState, formData: Form
 
   // Chequeo previo para dar un mensaje claro. La base de datos igual lo garantiza
   // con su índice único (por si dos personas eligen el mismo nombre a la vez).
-  const { data: existing } = await supabase
-    .from("profiles")
-    .select("id")
-    .ilike("username", username.value)
-    .maybeSingle();
-  if (existing) return { error: "username_taken" };
+  if (await isUsernameTaken(supabase, username.value)) return { error: "username_taken" };
 
   const origin = (await headers()).get("origin") ?? "";
   const { error } = await supabase.auth.signUp({
@@ -90,8 +83,35 @@ export async function logIn(localeArg: string, _prev: AuthState, formData: FormD
     console.error("logIn failed", error.code, error.message);
     return { error: "unknown" };
   }
-  const next = safeNext(formData.get("next"));
+  const next = safeNextPath(formData.get("next"));
   redirect(next === "/" ? `/${locale}` : `/${locale}${next}`);
+}
+
+/**
+ * Reenvía el email de confirmación. Sirve cuando el primero cayó en Spam o venció:
+ * sin esto, la persona no podía volver a registrarse porque su usuario ya existe.
+ * Supabase limita la frecuencia de reenvíos; ese caso se avisa como "resend_too_soon".
+ */
+export async function resendConfirmation(localeArg: string, _prev: AuthState, formData: FormData): Promise<AuthState> {
+  const locale = safeLocale(localeArg);
+  const email = String(formData.get("email") ?? "").trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "invalid_email" };
+
+  const supabase = await createClient();
+  const origin = (await headers()).get("origin") ?? "";
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+    options: { emailRedirectTo: `${origin}/auth/confirm?next=/${locale}` },
+  });
+
+  if (error) {
+    if (error.status === 429 || error.code === "over_email_send_rate_limit") return { error: "resend_too_soon" };
+    console.error("resend failed", error.code, error.message);
+    return { error: "unknown" };
+  }
+  // Por privacidad respondemos igual exista o no la cuenta.
+  return { resent: true };
 }
 
 export async function logOut(localeArg: string): Promise<void> {
