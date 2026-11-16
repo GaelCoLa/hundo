@@ -38,6 +38,9 @@ npx supabase db push --remote=emrebckwpeuzcneeqkkn     # hundo-prod
 - Variables en Vercel (Settings → Environment Variables): `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` de **hundo-prod**.
 - En Supabase hundo-prod → Authentication → URL Configuration: *Site URL* = la URL de Vercel y en *Redirect URLs* `<url de Vercel>/**`.
 - Emails de confirmación: SMTP propio (Brevo) en Authentication → Emails → SMTP Settings. El SMTP incluido en Supabase solo envía a miembros del equipo.
+  - Servidor `smtp-relay.brevo.com`, puerto `587`, usuario = el *Login* de Brevo (Settings → SMTP y API).
+  - ⚠️ **La clave SMTP `hundo-supabase` vence el 16/11/2027.** Antes de esa fecha: generar una nueva en Brevo y pegarla en Supabase hundo-prod → SMTP Settings → Password. Si vence, nadie nuevo puede registrarse (los emails dejan de salir sin mostrar error).
+  - No activar "IP autorizadas" en Brevo: Supabase envía desde IPs que cambian.
 
 ## Documentación
 
