@@ -31,15 +31,15 @@ export default function HomePage() {
           </div>
         </div>
 
-        <article className="relative flex flex-col gap-6 rounded-[28px] bg-[#5a1a1f] p-6 sm:p-7">
-          <span className="absolute right-6 top-6 rounded-full bg-[#3a1014] px-3 py-1 text-xs font-semibold text-[#e9b9b3]">
-            {t("example")}
-          </span>
+        <article className="flex flex-col gap-6 rounded-[28px] bg-[#5a1a1f] p-6 sm:p-7">
           <div className="flex items-start gap-5">
             <div aria-hidden="true" className="h-32 w-24 shrink-0 rounded-lg bg-[#3a1014]" />
-            <div className="flex flex-col gap-1.5 pr-16">
+            <div className="flex flex-col gap-2">
               <h2 className="font-display text-[46px] font-black leading-[0.95] text-[#fbe6e3]">{t("exampleGame")}</h2>
-              <p className="text-sm text-[#e9b9b3]">{t("exampleMeta")}</p>
+              <p className="flex flex-wrap items-center gap-2 text-sm text-[#e9b9b3]">
+                {t("exampleMeta")}
+                <span className="rounded-full bg-[#3a1014] px-3 py-1 text-xs font-semibold">{t("example")}</span>
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-6">
