@@ -56,5 +56,37 @@
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "auth": {
+    "signUpTitle": "Create your account",
+    "logInTitle": "Welcome back",
+    "username": "Username",
+    "usernameHint": "3 to 20 characters: letters, numbers and _",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "signUpCta": "Create account",
+    "logInCta": "Log in",
+    "haveAccount": "Already have an account?",
+    "noAccount": "New to Hundo?",
+    "checkEmailTitle": "Check your email",
+    "checkEmailBody": "We sent you a link to confirm your account. Open it to finish signing up.",
+    "errors": {
+      "too_short": "Your username needs at least 3 characters.",
+      "too_long": "Your username can have at most 20 characters.",
+      "invalid_chars": "Use only letters, numbers and underscores in your username.",
+      "username_taken": "That username is taken. Try another one.",
+      "invalid_email": "Enter a valid email address.",
+      "password_too_short": "Your password needs at least 8 characters.",
+      "invalid_credentials": "Wrong email or password.",
+      "email_not_confirmed": "Confirm your email first. Check your inbox for the link we sent.",
+      "confirm_failed": "That confirmation link expired or was already used. Log in, or sign up again to get a new one.",
+      "unknown": "Something went wrong on our side. Try again in a moment."
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "username": "Username",
+    "email": "Email"
   }
 }

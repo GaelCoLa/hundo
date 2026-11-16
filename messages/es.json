@@ -56,5 +56,37 @@
   "notFound": {
     "title": "Página no encontrada",
     "back": "Volver al inicio"
+  },
+  "auth": {
+    "signUpTitle": "Creá tu cuenta",
+    "logInTitle": "Hola de nuevo",
+    "username": "Usuario",
+    "usernameHint": "De 3 a 20 caracteres: letras, números y _",
+    "email": "Email",
+    "password": "Contraseña",
+    "passwordHint": "Al menos 8 caracteres",
+    "signUpCta": "Crear cuenta",
+    "logInCta": "Ingresar",
+    "haveAccount": "¿Ya tenés cuenta?",
+    "noAccount": "¿Nuevo en Hundo?",
+    "checkEmailTitle": "Revisá tu email",
+    "checkEmailBody": "Te mandamos un enlace para confirmar tu cuenta. Abrilo para terminar el registro.",
+    "errors": {
+      "too_short": "Tu usuario necesita al menos 3 caracteres.",
+      "too_long": "Tu usuario puede tener como máximo 20 caracteres.",
+      "invalid_chars": "Usá solo letras, números y guiones bajos en tu usuario.",
+      "username_taken": "Ese usuario ya existe. Probá con otro.",
+      "invalid_email": "Ingresá un email válido.",
+      "password_too_short": "Tu contraseña necesita al menos 8 caracteres.",
+      "invalid_credentials": "Email o contraseña incorrectos.",
+      "email_not_confirmed": "Primero confirmá tu email. Buscá en tu bandeja el enlace que te mandamos.",
+      "confirm_failed": "Ese enlace de confirmación venció o ya se usó. Ingresá, o registrate de nuevo para recibir otro.",
+      "unknown": "Algo falló de nuestro lado. Probá de nuevo en un momento."
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "username": "Usuario",
+    "email": "Email"
   }
 }
