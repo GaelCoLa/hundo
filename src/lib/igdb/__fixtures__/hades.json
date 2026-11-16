@@ -1,0 +1,18 @@
+{
+  "id": 113112,
+  "slug": "hades--1",
+  "name": "Hades",
+  "cover": { "id": 99999, "image_id": "co39vc" },
+  "first_release_date": 1600732800,
+  "genres": [
+    { "id": 12, "name": "Role-playing (RPG)" },
+    { "id": 25, "name": "Hack and slash/Beat 'em up" },
+    { "id": 31, "name": "Adventure" },
+    { "id": 32, "name": "Indie" }
+  ],
+  "involved_companies": [
+    { "id": 1, "company": { "id": 3311, "name": "Supergiant Games" }, "developer": true, "publisher": true },
+    { "id": 2, "company": { "id": 9999, "name": "Some Porting Studio" }, "developer": false, "publisher": false }
+  ],
+  "summary": "Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler."
+}

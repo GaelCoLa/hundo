@@ -7,6 +7,10 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  // Portadas de IGDB servidas a través de next/image (optimizadas y con caché).
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "images.igdb.com", pathname: "/igdb/image/upload/**" }],
+  },
   turbopack: {
     rules: {
       "*.css": {
