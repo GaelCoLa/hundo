@@ -4,8 +4,12 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 
 export async function createClient() {
+  // Todo lo que use este cliente depende de la sesión del visitante y de la hora
+  // (los tokens vencen): se calcula en cada visita, nunca se pre-genera.
+  await connection();
   const cookieStore = await cookies();
 
   return createServerClient(

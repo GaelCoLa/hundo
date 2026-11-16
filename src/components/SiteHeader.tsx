@@ -10,6 +10,7 @@ import { logOut } from "@/app/[locale]/(auth)/actions";
 import { Logo } from "./Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SearchBox } from "./games/SearchBox";
+import { AccountMenu } from "./AccountMenu";
 
 export async function SiteHeader() {
   const t = await getTranslations("nav");
@@ -53,27 +54,25 @@ async function AccountButton() {
     );
   }
 
-  // <details> da un menú desplegable accesible sin JavaScript.
   return (
-    <details className="relative">
-      <summary
-        aria-label={t("accountMenu")}
-        className="flex h-11 cursor-pointer list-none items-center gap-2 rounded-[10px] bg-surface px-3 font-semibold [&::-webkit-details-marker]:hidden"
-      >
-        <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-lg bg-accent text-sm font-bold uppercase text-accent-ink">
-          {user.username[0]}
-        </span>
-        @{user.username}
-      </summary>
-      <div className="absolute right-0 z-10 mt-2 flex w-48 flex-col rounded-xl border border-line bg-surface p-1.5 shadow-lg">
-        <Link href={`/u/${user.username}`} className="rounded-lg px-3 py-2.5 hover:bg-line">{t("myProfile")}</Link>
-        <Link href="/settings" className="rounded-lg px-3 py-2.5 hover:bg-line">{t("settings")}</Link>
-        <form action={logOut.bind(null, lang)}>
-          <button type="submit" className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-line">
-            {t("logOut")}
-          </button>
-        </form>
-      </div>
-    </details>
+    <AccountMenu
+      label={t("accountMenu")}
+      summary={
+        <>
+          <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-lg bg-accent text-sm font-bold uppercase text-accent-ink">
+            {user.username[0]}
+          </span>
+          @{user.username}
+        </>
+      }
+    >
+      <Link href={`/u/${user.username}`} className="rounded-lg px-3 py-2.5 hover:bg-line">{t("myProfile")}</Link>
+      <Link href="/settings" className="rounded-lg px-3 py-2.5 hover:bg-line">{t("settings")}</Link>
+      <form action={logOut.bind(null, lang)}>
+        <button type="submit" className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-line">
+          {t("logOut")}
+        </button>
+      </form>
+    </AccountMenu>
   );
 }
