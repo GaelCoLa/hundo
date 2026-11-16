@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { logOut } from "@/app/[locale]/(auth)/actions";
 import { Logo } from "./Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { SearchBox } from "./games/SearchBox";
 
 export async function SiteHeader() {
   const t = await getTranslations("nav");
@@ -23,6 +24,9 @@ export async function SiteHeader() {
         <Link href="/players" className="text-soft hover:text-ink">{t("players")}</Link>
       </nav>
       <div className="ml-auto flex items-center gap-3 sm:ml-0">
+        <div className="hidden md:block">
+          <SearchBox variant="header" />
+        </div>
         <LocaleSwitcher />
         <Suspense fallback={<div className="h-11 w-24 rounded-[10px] bg-surface" />}>
           <AccountButton />

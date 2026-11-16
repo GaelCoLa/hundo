@@ -92,5 +92,14 @@
     "title": "Configuración",
     "username": "Usuario",
     "email": "Email"
+  },
+  "search": {
+    "title": "Juegos",
+    "label": "Buscar juegos",
+    "placeholder": "Buscá entre más de 300.000 juegos",
+    "hint": "Buscá un juego que jugaste para ver la nota de la comunidad o calificarlo.",
+    "tooShort": "Escribí al menos 2 caracteres.",
+    "noResults": "No encontramos juegos para “{q}”. Revisá cómo está escrito o probá con un nombre más corto.",
+    "resultsFor": "{count, plural, one {# resultado} other {# resultados}} para “{q}”"
   }
 }

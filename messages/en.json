@@ -92,5 +92,14 @@
     "title": "Settings",
     "username": "Username",
     "email": "Email"
+  },
+  "search": {
+    "title": "Games",
+    "label": "Search games",
+    "placeholder": "Search 300,000+ games",
+    "hint": "Search for a game you played to see its community score or rate it.",
+    "tooShort": "Type at least 2 characters.",
+    "noResults": "No games found for “{q}”. Check the spelling or try a shorter name.",
+    "resultsFor": "{count, plural, one {# result} other {# results}} for “{q}”"
   }
 }
