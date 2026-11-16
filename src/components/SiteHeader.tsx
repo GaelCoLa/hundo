@@ -66,6 +66,7 @@ async function AccountButton() {
         @{user.username}
       </summary>
       <div className="absolute right-0 z-10 mt-2 flex w-48 flex-col rounded-xl border border-line bg-surface p-1.5 shadow-lg">
+        <Link href={`/u/${user.username}`} className="rounded-lg px-3 py-2.5 hover:bg-line">{t("myProfile")}</Link>
         <Link href="/settings" className="rounded-lg px-3 py-2.5 hover:bg-line">{t("settings")}</Link>
         <form action={logOut.bind(null, lang)}>
           <button type="submit" className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-line">

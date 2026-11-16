@@ -12,7 +12,8 @@
     "logOut": "Log out",
     "language": "Language",
     "home": "Hundo home",
-    "accountMenu": "Account menu"
+    "accountMenu": "Account menu",
+    "myProfile": "My profile"
   },
   "home": {
     "title": "Every game you beat deserves a score.",
@@ -146,5 +147,25 @@
       "rate_limited": "You’ve rated a lot of games in the last hour. Wait a bit and try again.",
       "unknown": "We couldn’t save your rating. Try again in a moment."
     }
+  },
+  "profile": {
+    "statsTitle": "Stats",
+    "average": "Average score",
+    "games": "Games rated",
+    "hours": "Hours logged",
+    "byCategory": "Games by category",
+    "library": "Library",
+    "sortBy": "Sort library",
+    "filterBy": "Filter by category",
+    "allCategories": "All",
+    "sort": {
+      "recent": "Recent",
+      "score": "Score",
+      "hours": "Hours",
+      "finished": "Finish date"
+    },
+    "empty": "No games rated yet.",
+    "emptyCategory": "No games in this category.",
+    "memberSince": "Member since {date, date, ::MMMMyyyy}"
   }
 }

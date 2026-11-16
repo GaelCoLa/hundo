@@ -12,7 +12,8 @@
     "logOut": "Cerrar sesión",
     "language": "Idioma",
     "home": "Inicio de Hundo",
-    "accountMenu": "Menú de la cuenta"
+    "accountMenu": "Menú de la cuenta",
+    "myProfile": "Mi perfil"
   },
   "home": {
     "title": "Cada juego que terminás merece una nota.",
@@ -146,5 +147,25 @@
       "rate_limited": "Calificaste muchos juegos en la última hora. Esperá un rato y probá de nuevo.",
       "unknown": "No pudimos guardar tu calificación. Probá de nuevo en un momento."
     }
+  },
+  "profile": {
+    "statsTitle": "Estadísticas",
+    "average": "Nota promedio",
+    "games": "Juegos calificados",
+    "hours": "Horas registradas",
+    "byCategory": "Juegos por categoría",
+    "library": "Biblioteca",
+    "sortBy": "Ordenar biblioteca",
+    "filterBy": "Filtrar por categoría",
+    "allCategories": "Todas",
+    "sort": {
+      "recent": "Recientes",
+      "score": "Nota",
+      "hours": "Horas",
+      "finished": "Fecha de finalización"
+    },
+    "empty": "Todavía no calificó ningún juego.",
+    "emptyCategory": "No hay juegos en esta categoría.",
+    "memberSince": "Miembro desde {date, date, ::MMMMyyyy}"
   }
 }
