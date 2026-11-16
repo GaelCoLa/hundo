@@ -80,7 +80,7 @@
       "password_too_short": "Tu contraseña necesita al menos 8 caracteres.",
       "invalid_credentials": "Email o contraseña incorrectos.",
       "email_not_confirmed": "Primero confirmá tu email. Buscá en tu bandeja el enlace que te mandamos.",
-      "confirm_failed": "Ese enlace de confirmación venció o ya se usó. Ingresá, o registrate de nuevo para recibir otro.",
+      "confirm_failed": "No pudimos iniciar tu sesión con ese enlace. Si ya confirmaste tu email, ingresá con tu contraseña. Si no, registrate de nuevo para recibir otro enlace.",
       "unknown": "Algo falló de nuestro lado. Probá de nuevo en un momento."
     }
   },
