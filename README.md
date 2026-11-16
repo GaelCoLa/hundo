@@ -23,6 +23,22 @@ npm run dev                  # abre http://localhost:3000
 npm test                     # corre las pruebas
 ```
 
+## Base de datos
+
+Los cambios de la base viven como archivos SQL en `supabase/migrations/` (una "migración" por cambio, en orden). Para aplicarlos (en PowerShell usá `npx.cmd`):
+
+```bash
+npx supabase db push --remote                          # hundo-dev (proyecto enlazado)
+npx supabase db push --remote=emrebckwpeuzcneeqkkn     # hundo-prod
+```
+
+## Deploy
+
+- El código vive en GitHub; **Vercel** publica solo cada vez que se sube un cambio a la rama `main`.
+- Variables en Vercel (Settings → Environment Variables): `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` de **hundo-prod**.
+- En Supabase hundo-prod → Authentication → URL Configuration: *Site URL* = la URL de Vercel y en *Redirect URLs* `<url de Vercel>/**`.
+- Emails de confirmación: SMTP propio (Brevo) en Authentication → Emails → SMTP Settings. El SMTP incluido en Supabase solo envía a miembros del equipo.
+
 ## Documentación
 
 - Diseño: [`docs/2026-11-16-hundo-design.md`](docs/2026-11-16-hundo-design.md)
