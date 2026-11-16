@@ -55,7 +55,9 @@
   },
   "notFound": {
     "title": "Página no encontrada",
-    "back": "Volver al inicio"
+    "back": "Volver al inicio",
+    "body": "No encontramos ese juego o jugador. Puede que el enlace esté mal o que la página se haya movido.",
+    "search": "Buscar juegos"
   },
   "auth": {
     "signUpTitle": "Creá tu cuenta",
@@ -101,5 +103,48 @@
     "tooShort": "Escribí al menos 2 caracteres.",
     "noResults": "No encontramos juegos para “{q}”. Revisá cómo está escrito o probá con un nombre más corto.",
     "resultsFor": "{count, plural, one {# resultado} other {# resultados}} para “{q}”"
+  },
+  "game": {
+    "communityScore": "Nota de la comunidad",
+    "fromPlayers": "{count, plural, one {Según # jugador} other {Según # jugadores}}",
+    "notEnough": "Todavía no hay suficientes votos",
+    "needMore": "{count, plural, one {Falta # calificación para tener nota de la comunidad.} other {Faltan # calificaciones para tener nota de la comunidad.}}",
+    "why": "¿Por qué?",
+    "howRated": "Cómo lo calificaron",
+    "avgHours": "Horas promedio",
+    "reviews": "Reseñas",
+    "ratings": "Calificaciones",
+    "by": "De {developers}",
+    "reviewsTitle": "Reseñas",
+    "noReviews": "Todavía no hay reseñas. Calificá este juego y escribí la primera.",
+    "showSpoilers": "Tiene spoilers. Mostrar reseña",
+    "hoursShort": "{hours} h",
+    "finished": "terminado en {date}"
+  },
+  "rating": {
+    "title": "Calificá este juego",
+    "editTitle": "Tu calificación",
+    "scoreLabel": "Tu nota",
+    "hours": "Horas jugadas",
+    "finishedOn": "Lo terminaste el",
+    "review": "Reseña (opcional)",
+    "reviewPlaceholder": "Qué funcionó, qué no, y por qué le diste esta nota.",
+    "hasSpoilers": "Mi reseña tiene spoilers",
+    "save": "Guardar calificación",
+    "update": "Actualizar calificación",
+    "delete": "Borrar calificación",
+    "saved": "Calificación guardada.",
+    "signInToRate": "Ingresá para calificar este juego y escribir una reseña.",
+    "signInCta": "Ingresar para calificar",
+    "errors": {
+      "score_range": "Elegí una nota del 1 al 100.",
+      "review_too_long": "Tu reseña puede tener como máximo 5.000 caracteres.",
+      "hours_invalid": "Escribí las horas como número, por ejemplo 85.7 (hasta 9.999,9).",
+      "date_future": "La fecha en que lo terminaste no puede ser futura.",
+      "date_invalid": "Ingresá una fecha válida.",
+      "not_signed_in": "Tu sesión venció. Ingresá de nuevo para guardar tu calificación.",
+      "rate_limited": "Calificaste muchos juegos en la última hora. Esperá un rato y probá de nuevo.",
+      "unknown": "No pudimos guardar tu calificación. Probá de nuevo en un momento."
+    }
   }
 }

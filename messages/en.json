@@ -55,7 +55,9 @@
   },
   "notFound": {
     "title": "Page not found",
-    "back": "Back to home"
+    "back": "Back to home",
+    "body": "We couldn’t find that game or player. The link may be wrong or the page may have moved.",
+    "search": "Search games"
   },
   "auth": {
     "signUpTitle": "Create your account",
@@ -101,5 +103,48 @@
     "tooShort": "Type at least 2 characters.",
     "noResults": "No games found for “{q}”. Check the spelling or try a shorter name.",
     "resultsFor": "{count, plural, one {# result} other {# results}} for “{q}”"
+  },
+  "game": {
+    "communityScore": "Community score",
+    "fromPlayers": "{count, plural, one {From # player} other {From # players}}",
+    "notEnough": "Not enough ratings yet",
+    "needMore": "{count, plural, one {# more rating needed for a community score.} other {# more ratings needed for a community score.}}",
+    "why": "Why?",
+    "howRated": "How players rated it",
+    "avgHours": "Average playtime",
+    "reviews": "Reviews",
+    "ratings": "Ratings",
+    "by": "By {developers}",
+    "reviewsTitle": "Reviews",
+    "noReviews": "No reviews yet. Rate this game and be the first to write one.",
+    "showSpoilers": "Contains spoilers. Show review",
+    "hoursShort": "{hours} h",
+    "finished": "finished {date}"
+  },
+  "rating": {
+    "title": "Rate this game",
+    "editTitle": "Your rating",
+    "scoreLabel": "Your score",
+    "hours": "Hours played",
+    "finishedOn": "Finished on",
+    "review": "Review (optional)",
+    "reviewPlaceholder": "What worked, what didn’t, and why you gave it this score.",
+    "hasSpoilers": "My review contains spoilers",
+    "save": "Save rating",
+    "update": "Update rating",
+    "delete": "Delete rating",
+    "saved": "Rating saved.",
+    "signInToRate": "Sign in to rate this game and write a review.",
+    "signInCta": "Sign in to rate",
+    "errors": {
+      "score_range": "Choose a score from 1 to 100.",
+      "review_too_long": "Your review can have at most 5,000 characters.",
+      "hours_invalid": "Enter hours as a number, like 85.7 (up to 9,999.9).",
+      "date_future": "The finish date can’t be in the future.",
+      "date_invalid": "Enter a valid finish date.",
+      "not_signed_in": "Your session expired. Sign in again to save your rating.",
+      "rate_limited": "You’ve rated a lot of games in the last hour. Wait a bit and try again.",
+      "unknown": "We couldn’t save your rating. Try again in a moment."
+    }
   }
 }

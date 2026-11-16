@@ -27,7 +27,10 @@ export async function SiteHeader() {
         <div className="hidden md:block">
           <SearchBox variant="header" />
         </div>
-        <LocaleSwitcher />
+        {/* Lee la URL actual: en páginas con partes variables (/games/[slug]) eso es dato de cada visita. */}
+        <Suspense fallback={<div className="h-11 w-[88px] rounded-[10px] bg-surface" />}>
+          <LocaleSwitcher />
+        </Suspense>
         <Suspense fallback={<div className="h-11 w-24 rounded-[10px] bg-surface" />}>
           <AccountButton />
         </Suspense>
