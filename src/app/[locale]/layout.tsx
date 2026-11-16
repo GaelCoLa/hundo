@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { locale } from "next/root-params";
 import { routing } from "@/i18n/routing";
+import { SiteHeader } from "@/components/SiteHeader";
 import "../globals.css";
 
 // next/font descarga las fuentes al compilar y las sirve desde nuestro dominio:
@@ -42,7 +43,10 @@ export default async function LocaleLayout({ children }: LayoutProps<"/[locale]"
       className={`${bigShoulders.variable} ${figtree.variable} ${unbounded.variable}`}
     >
       <body className="min-h-dvh antialiased">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <SiteHeader />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
