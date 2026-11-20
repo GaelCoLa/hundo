@@ -17,9 +17,10 @@ export const GAME_FIELDS = [
 
 // Tipos de juego que mostramos: juego principal, remake, remaster, versión
 // expandida y port. Dejamos afuera DLCs, mods, packs, temporadas, etc.
-// Ids del endpoint /v4/game_types de IGDB (coinciden con el enum histórico
-// "category": main_game 0, remake 8, remaster 9, expanded_game 10, port 11).
-export const GAME_TYPE_IDS = [0, 8, 9, 10, 11] as const;
+// Ids del endpoint /v4/game_types de IGDB (verificados el 19/11/2026):
+// 0 Main Game, 4 Standalone Expansion, 8 Remake, 9 Remaster, 10 Expanded Game, 11 Port.
+// Quedan afuera DLCs, bundles, mods, episodios, temporadas, packs y updates.
+export const GAME_TYPE_IDS = [0, 4, 8, 9, 10, 11] as const;
 
 const BASE_FILTER = `version_parent = null & game_type = (${GAME_TYPE_IDS.join(",")})`;
 

@@ -31,6 +31,10 @@ describe("buildSearchQuery", () => {
     expect(q).toContain("where version_parent = null");
   });
 
+  test("incluye juegos principales, remakes, remasters, expansiones independientes y ports (ids verificados contra /v4/game_types)", () => {
+    expect(buildSearchQuery("hades")).toContain("game_type = (0,4,8,9,10,11)");
+  });
+
   test("escapa comillas: no se puede cerrar el texto e inyectar cláusulas", () => {
     const q = buildSearchQuery('resi"; fields *; where id = 1')!;
     expect(searchTerm(q)).toBe('resi\\" fields * where id = 1');
