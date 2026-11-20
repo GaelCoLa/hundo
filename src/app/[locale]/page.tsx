@@ -7,6 +7,7 @@ import { ScoreRing } from "@/components/ScoreRing";
 import { ScaleBar } from "@/components/ScaleBar";
 import { SCALE } from "@/lib/scale";
 import { RecentRatings } from "@/components/home/RecentRatings";
+import { FeaturedGames } from "@/components/home/FeaturedGames";
 import { FloatingCovers } from "@/components/home/FloatingCovers";
 import { WordReveal } from "@/components/motion/WordReveal";
 import { Reveal } from "@/components/motion/Reveal";
@@ -78,6 +79,11 @@ export default function HomePage() {
 
       {/* Lo único dinámico de la portada: el resto se pre-genera. Sin fallback visible
           para que no "salte" un hueco vacío cuando todavía no hay calificaciones. */}
+      {/* Datos públicos cacheados: no dependen de quién mira. */}
+      <Suspense fallback={null}>
+        <FeaturedGames />
+      </Suspense>
+
       <Suspense fallback={null}>
         <RecentRatings />
       </Suspense>

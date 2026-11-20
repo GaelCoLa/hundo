@@ -38,7 +38,17 @@ Corren dentro de una transacción que se deshace al final (no dejan datos). Cont
 
 ```bash
 npx supabase db query --remote --yes --file supabase/tests/score.sql        # nota de la comunidad
-npx supabase db query --remote --yes --file supabase/tests/ratings_rls.sql  # seguridad de calificaciones
+npx supabase db query --remote --yes --file supabase/tests/ratings_rls.sql        # seguridad de calificaciones
+npx supabase db query --remote --yes --file supabase/tests/community_rls.sql      # "útil", seguir y contadores
+npx supabase db query --remote --yes --file supabase/tests/community_queries.sql  # rankings, destacados, jugadores
+```
+
+### Datos de prueba (solo desarrollo)
+
+`supabase/dev-seed-community.sql` crea 3 jugadores de prueba con reseñas de Hades, votos "útil" y seguimientos, para ver las páginas de comunidad con contenido. **Nunca correrlo contra hundo-prod.**
+
+```bash
+npx supabase db query --remote --yes --file supabase/dev-seed-community.sql
 ```
 
 Cada una termina mostrando `... tests passed`; si algo falla, Postgres corta con el mensaje de la verificación.

@@ -58,3 +58,12 @@ export async function getGenreRank(gameId: number): Promise<{ genre: string; pos
   const row = (data as { genre: string; position: number; total: number }[] | null)?.[0];
   return row ?? null;
 }
+
+/** Destacados de la portada: los más calificados en los últimos 30 días (función featured_games). */
+export async function getFeatured(): Promise<GameRow[]> {
+  "use cache";
+  cacheLife("minutes");
+  const { data, error } = await createPublicClient().rpc("featured_games", { p_limit: 6 });
+  if (error) console.error("getFeatured failed", error.code, error.message);
+  return ((data ?? []) as GameRecord[]).map(gameRowFromDb);
+}

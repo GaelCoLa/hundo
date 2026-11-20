@@ -27,7 +27,10 @@
     "communityScoreFrom": "Nota de la comunidad según {count} jugadores",
     "howItWorks": "Cómo se calcula la nota",
     "scaleTitle": "La escala",
-    "recentTitle": "Calificaciones recientes"
+    "recentTitle": "Calificaciones recientes",
+    "featuredTitle": "Destacados",
+    "featuredHint": "Los más calificados del último mes",
+    "noScoreYet": "Sin nota de la comunidad todavía"
   },
   "scale": {
     "mediocre": "Mediocre",

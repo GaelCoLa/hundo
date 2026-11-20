@@ -27,7 +27,10 @@
     "communityScoreFrom": "Community score from {count} players",
     "howItWorks": "How scores work",
     "scaleTitle": "The scale",
-    "recentTitle": "Recent ratings"
+    "recentTitle": "Recent ratings",
+    "featuredTitle": "Featured",
+    "featuredHint": "Most rated in the last month",
+    "noScoreYet": "No community score yet"
   },
   "scale": {
     "mediocre": "Mediocre",
