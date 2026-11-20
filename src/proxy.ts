@@ -14,6 +14,8 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Corre en todo menos rutas internas, la API, la confirmación de email y archivos con extensión.
-  matcher: ["/((?!api|auth|_next|_vercel|.*\\..*).*)"],
+  // Corre en todo menos rutas internas, la API, la confirmación de email, los
+  // íconos generados (/icon, /apple-icon: no tienen extensión pero no llevan
+  // idioma) y archivos con extensión.
+  matcher: ["/((?!api|auth|_next|_vercel|icon|apple-icon|.*\\..*).*)"],
 };
