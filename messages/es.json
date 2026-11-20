@@ -13,7 +13,8 @@
     "language": "Idioma",
     "home": "Inicio de Hundo",
     "accountMenu": "Menú de la cuenta",
-    "myProfile": "Mi perfil"
+    "myProfile": "Mi perfil",
+    "feed": "Siguiendo"
   },
   "home": {
     "title": "Cada juego que terminás merece una nota.",
@@ -177,7 +178,11 @@
     "helpful": "Útil",
     "helpfulCount": "{count, plural, =0 {Nadie la marcó como útil todavía} one {A # persona le resultó útil} other {A # personas les resultó útil}}",
     "topReviewerLabel": "recibió 50 o más votos de útil de la comunidad",
-    "signInToVote": "Ingresá para votar"
+    "signInToVote": "Ingresá para votar",
+    "follow": "Seguir",
+    "following": "Siguiendo",
+    "followers": "{count, plural, one {seguidor} other {seguidores}}",
+    "followingCount": "Sigue a {count, plural, one {# jugador} other {# jugadores}}"
   },
   "reviewsPage": {
     "title": "Reseñas",
@@ -191,5 +196,14 @@
     "pagination": "Páginas",
     "previous": "Anterior",
     "next": "Siguiente"
+  },
+  "feed": {
+    "title": "Siguiendo",
+    "rated": "<user></user> calificó <game></game>",
+    "empty": "Los jugadores que seguís todavía no calificaron nada.",
+    "noMore": "No hay más actividad.",
+    "noFollows": "Todavía no seguís a nadie. Seguí jugadores para ver acá lo que califican.",
+    "findPlayers": "Buscar jugadores",
+    "more": "Ver más"
   }
 }

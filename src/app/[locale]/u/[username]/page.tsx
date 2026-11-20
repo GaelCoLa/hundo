@@ -3,6 +3,11 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
+import { isTopReviewer } from "@/lib/community";
+import { Link } from "@/i18n/navigation";
+import { TopReviewerBadge } from "@/components/community/TopReviewerBadge";
+import { FollowButton } from "@/components/community/FollowButton";
 import { computeProfileStats, sortLibrary, type LibrarySort } from "@/lib/profile-stats";
 import { SCALE, getScaleCategory, type ScaleKey } from "@/lib/scale";
 import { StatsPanel } from "@/components/profile/StatsPanel";
@@ -37,7 +42,7 @@ async function Profile({ params, searchParams }: Props) {
   // Las reglas RLS ya ocultan los perfiles suspendidos: para el visitante "no existen".
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, username, created_at")
+    .select("id, username, created_at, helpful_received")
     .eq("username", username.toLowerCase())
     .maybeSingle();
   if (!profile) notFound();
@@ -66,18 +71,48 @@ async function Profile({ params, searchParams }: Props) {
   const cat = SCALE.some((c) => c.key === catParam) ? (catParam as ScaleKey) : null;
   const items = sortLibrary(cat ? all.filter((i) => getScaleCategory(i.score).key === cat) : all, sort);
 
-  const t = await getTranslations("profile");
+  const [t, tc, viewer] = await Promise.all([getTranslations("profile"), getTranslations("community"), getCurrentUser()]);
+
+  // Seguidores y seguidos: "head: true" pide solo la cantidad, sin las filas.
+  const [followers, followingCount, viewerFollows] = await Promise.all([
+    supabase.from("follows").select("*", { count: "exact", head: true }).eq("followee_id", profile.id),
+    supabase.from("follows").select("*", { count: "exact", head: true }).eq("follower_id", profile.id),
+    viewer && viewer.id !== profile.id
+      ? supabase.from("follows").select("followee_id").eq("follower_id", viewer.id).eq("followee_id", profile.id).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
+  const followerCount = followers.count ?? 0;
 
   return (
     <>
-      <header className="flex items-center gap-5">
+      <header className="flex flex-wrap items-center gap-5">
         <span aria-hidden="true" className="flex size-20 items-center justify-center rounded-[22px] bg-accent font-display text-5xl font-black uppercase text-accent-ink">
           {profile.username[0]}
         </span>
-        <div className="flex flex-col gap-1">
+        <div className="flex grow flex-col gap-1">
           <h1 className="font-display text-5xl font-black leading-none sm:text-6xl">@{profile.username}</h1>
-          <p className="text-sm text-muted">{t("memberSince", { date: new Date(profile.created_at) })}</p>
+          <p className="flex flex-wrap items-center gap-2 text-sm text-muted">
+            {t("memberSince", { date: new Date(profile.created_at) })}
+            {isTopReviewer(profile.helpful_received) ? <TopReviewerBadge /> : null}
+          </p>
+          <p className="text-sm text-soft">{tc("followingCount", { count: followingCount.count ?? 0 })}</p>
         </div>
+        {viewer && viewer.id === profile.id ? (
+          <span className="text-sm text-soft">
+            <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
+          </span>
+        ) : viewer ? (
+          <FollowButton followeeId={profile.id} following={viewerFollows.data !== null} followers={followerCount} />
+        ) : (
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-soft">
+              <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
+            </span>
+            <Link href={`/login?next=${encodeURIComponent(`/u/${profile.username}`)}`} className="btn-pop flex h-10 items-center rounded-xl bg-accent px-5 font-bold text-accent-ink">
+              {tc("follow")}
+            </Link>
+          </div>
+        )}
       </header>
       <StatsPanel stats={computeProfileStats(all)} />
       <Library username={profile.username} items={items} sort={sort} cat={cat} />

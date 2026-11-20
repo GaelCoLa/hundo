@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isTopReviewer, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
+import { isTopReviewer, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
 
 describe("isTopReviewer", () => {
   test("hacen falta 50 'útil' recibidos (spec §5.3)", () => {
@@ -29,5 +29,16 @@ describe("parsePage", () => {
     expect(parsePage("2.5")).toBe(1);
     expect(parsePage(undefined)).toBe(1);
     expect(parsePage("9999")).toBe(500);
+  });
+});
+
+describe("parseBefore", () => {
+  test("cursor del feed: una fecha ISO válida, o null", () => {
+    expect(parseBefore("2026-11-20T10:00:00.000Z")).toBe("2026-11-20T10:00:00.000Z");
+    expect(parseBefore("2026-11-20")).toBe("2026-11-20T00:00:00.000Z");
+    expect(parseBefore("hola")).toBeNull();
+    expect(parseBefore("")).toBeNull();
+    expect(parseBefore(undefined)).toBeNull();
+    expect(parseBefore(["x"])).toBeNull();
   });
 });

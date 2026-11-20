@@ -21,3 +21,19 @@ export async function toggleHelpful(ratingId: string, liked: boolean): Promise<{
   refresh();
   return { ok: true };
 }
+
+/** Seguir o dejar de seguir a un jugador. */
+export async function toggleFollow(followeeId: string, follow: boolean): Promise<{ ok: boolean }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false };
+  const supabase = await createClient();
+  const { error } = follow
+    ? await supabase.from("follows").insert({ follower_id: user.id, followee_id: followeeId })
+    : await supabase.from("follows").delete().eq("follower_id", user.id).eq("followee_id", followeeId);
+  if (error && error.code !== "23505") {
+    console.error("toggleFollow failed", error.code, error.message);
+    return { ok: false };
+  }
+  refresh();
+  return { ok: true };
+}
