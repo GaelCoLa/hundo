@@ -213,7 +213,8 @@
     "empty": "No games rated yet.",
     "emptyCategory": "No games in this category.",
     "memberSince": "Member since {date, date, ::MMMMyyyy}",
-    "top5": "Top 5"
+    "top5": "Top 5",
+    "editProfile": "Edit profile"
   },
   "community": {
     "helpful": "Helpful",

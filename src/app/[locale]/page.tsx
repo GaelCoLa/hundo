@@ -21,7 +21,7 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
-      <section className="relative isolate grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
+      <section className="relative isolate grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
         {/* Manchas de luz de colores de la escala, difuminadas, que se mueven lento. */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20">
           <div className="absolute -left-24 -top-24 size-[420px] animate-drift rounded-full bg-accent/15 blur-3xl motion-reduce:animate-none" />
@@ -31,7 +31,7 @@ export default function HomePage() {
         <div className="flex flex-col gap-6">
           <WordReveal
             text={t("title")}
-            className="font-display text-[56px] font-black uppercase leading-[0.94] tracking-[-1px] sm:text-[76px] lg:text-[84px]"
+            className="font-display text-[56px] font-black uppercase leading-[0.94] tracking-[-1px] sm:text-[76px] lg:text-[68px] xl:text-[76px]"
           />
           <p className="max-w-[480px] text-lg leading-relaxed text-soft sm:text-[19px]">{t("subtitle")}</p>
           <div className="flex flex-wrap gap-3">

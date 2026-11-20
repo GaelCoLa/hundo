@@ -112,9 +112,18 @@ async function Profile({ params, searchParams }: Props) {
           {profile.bio ? <p className="max-w-prose whitespace-pre-line pt-1 leading-relaxed text-[#d3d8e6]">{profile.bio}</p> : null}
         </div>
         {viewer && viewer.id === profile.id ? (
-          <span className="text-sm text-soft">
-            <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
-          </span>
+          // Tu propio perfil: en vez de "Seguir", un atajo a Configuración.
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-soft">
+              <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
+            </span>
+            <Link href="/settings" className="btn-pop btn-pop-ghost flex h-10 items-center gap-2 rounded-xl border-2 border-line px-4 font-semibold">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              </svg>
+              {t("editProfile")}
+            </Link>
+          </div>
         ) : viewer ? (
           <FollowButton followeeId={profile.id} following={viewerFollows.data !== null} followers={followerCount} />
         ) : (

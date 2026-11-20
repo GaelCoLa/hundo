@@ -213,7 +213,8 @@
     "empty": "Todavía no calificó ningún juego.",
     "emptyCategory": "No hay juegos en esta categoría.",
     "memberSince": "Miembro desde {date, date, ::MMMMyyyy}",
-    "top5": "Top 5"
+    "top5": "Top 5",
+    "editProfile": "Editar perfil"
   },
   "community": {
     "helpful": "Útil",
