@@ -62,8 +62,8 @@ API de juegos: **IGDB** (de Twitch) en lugar de RAWG, por su calidad de datos y 
 | 60–74 | Aceptable | Decent | `#F5C451` |
 | 75–84 | Bueno | Good | `#9BD35A` |
 | 85–89 | Muy bueno | Great | `#46C27A` |
-| 90–94 | Excelente | Excellent | `#3AA8E0` |
-| 95–100 | Obra maestra | Masterpiece | `#B57CFF` |
+| 90–95 | Excelente | Excellent | `#3AA8E0` |
+| 96–100 | Obra maestra | Masterpiece | `#B57CFF` |
 
 La nota sobre 10 se muestra derivada (`score / 10`, un decimal).
 

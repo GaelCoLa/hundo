@@ -51,7 +51,7 @@ insert into public.ratings (user_id, game_id, score) values
 do $$ begin
   assert (pg_temp.g()).community_score = 94, 'el troll con 1 no debe mover la nota (media recortada)';
   assert (pg_temp.g()).valid_ratings_count = 10, 'deben contar 10 votos validos';
-  assert (pg_temp.g()).score_distribution = '{1,0,0,0,0,3,6}', 'distribucion por categoria incorrecta';
+  assert (pg_temp.g()).score_distribution = '{1,0,0,0,0,7,2}', 'distribucion por categoria incorrecta';
 end $$;
 
 -- Cuenta nueva (1 día) y cuenta sin email confirmado: se guardan, pero no cuentan.

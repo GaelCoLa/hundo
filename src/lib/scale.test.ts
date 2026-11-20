@@ -14,8 +14,8 @@ describe("getScaleCategory", () => {
     [85, "great"],
     [89, "great"],
     [90, "excellent"],
-    [94, "excellent"],
-    [95, "masterpiece"],
+    [95, "excellent"],
+    [96, "masterpiece"],
     [100, "masterpiece"],
   ])("%i es %s", (score, key) => {
     expect(getScaleCategory(score).key).toBe(key);

@@ -24,8 +24,8 @@ export const SCALE: ReadonlyArray<ScaleCategory> = [
   { key: "decent", min: 60, max: 74, color: "#F5C451" },
   { key: "good", min: 75, max: 84, color: "#9BD35A" },
   { key: "great", min: 85, max: 89, color: "#46C27A" },
-  { key: "excellent", min: 90, max: 94, color: "#3AA8E0" },
-  { key: "masterpiece", min: 95, max: 100, color: "#B57CFF" },
+  { key: "excellent", min: 90, max: 95, color: "#3AA8E0" },
+  { key: "masterpiece", min: 96, max: 100, color: "#B57CFF" },
 ];
 
 /** Devuelve la categoría de una nota. Solo acepta enteros del 1 al 100. */
