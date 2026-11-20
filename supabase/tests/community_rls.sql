@@ -32,6 +32,13 @@ select set_config('test.b2_plain', (select id::text from public.ratings where us
 select set_config('test.b2_hidden', (select id::text from public.ratings where user_id = '00000000-0000-0000-0000-0000000000b2' and game_id = 999000006), true);
 select set_config('test.a1_review', (select id::text from public.ratings where user_id = '00000000-0000-0000-0000-0000000000a1' and game_id = 999000005), true);
 
+-- La reseña de b2 es "vieja" (fecha fija). Dentro de una transacción now() no
+-- cambia, así que sin fecha vieja la prueba no podría notar si el like la pisa.
+-- session_replication_role = replica apaga los triggers solo para este ajuste.
+set local session_replication_role = replica;
+update public.ratings set updated_at = '2026-01-01 00:00:00+00' where id = current_setting('test.b2_review')::uuid;
+set local session_replication_role = origin;
+
 -- ---------------------------------------------------------------- como a1 ---
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', true);
@@ -44,6 +51,10 @@ do $$ begin
     'el like debe sumar 1 a helpful_count';
   assert (select helpful_received from public.profiles where id = '00000000-0000-0000-0000-0000000000b2') = 1,
     'el like debe sumar 1 a helpful_received del autor';
+  -- Un "útil" no es una edición: no cambia la fecha de la reseña (si no, la
+  -- reseña saltaría a "Recientes" y al feed, y contaría para el límite por hora).
+  assert (select updated_at from public.ratings where id = current_setting('test.b2_review')::uuid) = '2026-01-01 00:00:00+00',
+    'un like no debe cambiar updated_at de la reseña';
 
   begin
     insert into public.review_likes (user_id, rating_id) values ('00000000-0000-0000-0000-0000000000a1', current_setting('test.b2_review')::uuid);
@@ -139,6 +150,20 @@ do $$ begin
     insert into public.follows (follower_id, followee_id) values ('00000000-0000-0000-0000-0000000000c3', '00000000-0000-0000-0000-0000000000a1');
     assert false, 'un suspendido no deberia poder seguir';
   exception when insufficient_privilege then null; end;
+end $$;
+
+-- ------------------------------- borrar el texto de una reseña descuenta ---
+reset role;
+insert into public.review_likes (user_id, rating_id) values ('00000000-0000-0000-0000-0000000000b2', current_setting('test.a1_review')::uuid);
+do $$ begin
+  assert (select helpful_received from public.profiles where id = '00000000-0000-0000-0000-0000000000a1') = 1, 'preparacion: a1 con 1 like';
+end $$;
+update public.ratings set review = '  ' where id = current_setting('test.a1_review')::uuid;
+do $$ begin
+  assert (select count(*) from public.review_likes where rating_id = current_setting('test.a1_review')::uuid) = 0,
+    'sin texto, la reseña pierde sus likes';
+  assert (select helpful_received from public.profiles where id = '00000000-0000-0000-0000-0000000000a1') = 0,
+    'sin texto, el autor deja de sumar esos likes';
 end $$;
 
 -- ------------------------------- borrar una reseña con likes descuenta ---

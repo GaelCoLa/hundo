@@ -48,16 +48,20 @@ update public.ratings set created_at = now() - interval '40 days' where game_id 
 do $$
 declare ids bigint[];
 begin
-  select array_agg(id) into ids from public.featured_games(6);
-  assert ids[1] = 999100010, 'F1 (2 calificaciones recientes) debe ir primero';
-  assert ids[2] = 999100011, 'F2 debe ir segundo';
+  -- Orden relativo (la base de desarrollo puede tener otros juegos destacados,
+  -- por ejemplo los del dev-seed): F1 antes que F2, y F3 afuera.
+  select array_agg(id) into ids from public.featured_games(24);
+  assert array_position(ids, 999100010) < array_position(ids, 999100011), 'F1 (2 calificaciones recientes) va antes que F2 (1)';
   assert not (999100012 = any(ids)), 'F3 (calificacion de hace 40 dias) no es destacado';
 end $$;
 
 -- Jugadores.
 update public.profiles set helpful_received = 7 where id = '00000000-0000-0000-0000-00000000f001';
 do $$ begin
-  assert (select username from public.top_players('helpful', 20) limit 1) = 'q_user_1', 'u1 encabeza Top reviewers';
+  -- Orden relativo (en desarrollo puede haber otros jugadores con más "útil"):
+  -- u1 (7) va antes que u2 (0 → ni aparece, porque solo entran los que tienen alguno).
+  assert exists (select 1 from public.top_players('helpful', 20) where username = 'q_user_1'), 'u1 aparece en Top reviewers';
+  assert not exists (select 1 from public.top_players('helpful', 20) where username = 'q_user_2'), 'sin util no aparece en Top reviewers';
   assert (select helpful_received from public.top_players('helpful', 20) where username = 'q_user_1') = 7, 'u1 tiene 7 util';
   assert (select ratings_count from public.top_players('active', 20) where username = 'q_user_1') = 2, 'u1 tiene 2 calificaciones';
   begin

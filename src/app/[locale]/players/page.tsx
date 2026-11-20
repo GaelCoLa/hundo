@@ -4,7 +4,7 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { escapeLike } from "@/lib/community";
+import { escapeLike, usernameQuery } from "@/lib/community";
 import { PlayerRow, type PlayerSummary } from "@/components/community/PlayerRow";
 import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
 
@@ -59,13 +59,16 @@ async function Players({ searchParams }: { searchParams: SearchParams }) {
         </>
       );
     }
-    // Empieza con lo buscado (sin mayúsculas). escapeLike: "%" o "_" se buscan
-    // como texto, no como comodines. "!ratings_user_id_fkey": las calificaciones
-    // propias (no las que votó como "útil").
-    const { data } = await supabase
+    // Solo letras, números y "_" (como los nombres de usuario): otro carácter no
+    // puede coincidir, y "*" o "%" la API los tomaría como comodines.
+    const term = usernameQuery(q);
+    // Empieza con lo buscado. escapeLike: "_" se busca como texto, no como
+    // comodín. "!ratings_user_id_fkey": las calificaciones propias (no las que
+    // votó como "útil").
+    const { data } = term === null ? { data: [] } : await supabase
       .from("profiles")
       .select("username, helpful_received, ratings!ratings_user_id_fkey(count)")
-      .ilike("username", `${escapeLike(q.toLowerCase())}%`)
+      .ilike("username", `${escapeLike(term ?? "")}%`)
       .order("username")
       .limit(20)
       .returns<{ username: string; helpful_received: number; ratings: { count: number }[] }[]>();

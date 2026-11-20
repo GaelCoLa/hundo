@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { escapeLike, isTopReviewer, pickGenre, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
+import { escapeLike, isTopReviewer, pickGenre, usernameQuery, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
 
 describe("isTopReviewer", () => {
   test("hacen falta 50 'útil' recibidos (spec §5.3)", () => {
@@ -62,5 +62,18 @@ describe("pickGenre", () => {
     expect(pickGenre("Puzzle", available)).toBeNull();
     expect(pickGenre(undefined, available)).toBeNull();
     expect(pickGenre(["Shooter"], available)).toBeNull();
+  });
+});
+
+describe("usernameQuery", () => {
+  test("solo busca textos que podrían ser un nombre de usuario ([a-z0-9_])", () => {
+    expect(usernameQuery("Gael")).toBe("gael");
+    expect(usernameQuery("beto_rpg")).toBe("beto_rpg");
+    // PostgREST toma "*" como comodín (igual que "%"): no puede llegar a la consulta.
+    expect(usernameQuery("**")).toBeNull();
+    expect(usernameQuery("a*")).toBeNull();
+    expect(usernameQuery("50%")).toBeNull();
+    expect(usernameQuery("a b")).toBeNull();
+    expect(usernameQuery("")).toBeNull();
   });
 });

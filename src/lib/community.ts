@@ -40,6 +40,17 @@ export function parseBefore(v: unknown): string | null {
  * devolvería a todos los usuarios. Primero se duplica la barra invertida (que
  * es el carácter de escape) y después se escapan los comodines.
  */
+/**
+ * Texto de búsqueda de jugadores, en minúsculas, solo si podría ser parte de un
+ * nombre de usuario (letras, números y "_", como exige la base). Cualquier otro
+ * carácter no puede dar resultados, y algunos ("*", "%") la API los toma como
+ * comodines: devolver null evita mandarlos a la consulta.
+ */
+export function usernameQuery(q: string): string | null {
+  const lower = q.trim().toLowerCase();
+  return /^[a-z0-9_]+$/.test(lower) ? lower : null;
+}
+
 /** Género de la URL (?genre=) solo si existe en el ranking; si no, null (todos). */
 export function pickGenre(v: unknown, available: readonly string[]): string | null {
   return typeof v === "string" && available.includes(v) ? v : null;
