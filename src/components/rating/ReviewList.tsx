@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/lib/auth";
 import type { ReviewSort } from "@/lib/community";
 import { fetchReviews, fetchViewerLikes } from "@/lib/reviews-server";
 import { ReviewCard } from "@/components/community/ReviewCard";
+import { LinkPending } from "@/components/LinkPending";
 
 type Props = { gameId: number; slug: string; sort: ReviewSort };
 
@@ -16,7 +17,7 @@ export async function ReviewList({ gameId, slug, sort }: Props) {
   const liked = await fetchViewerLikes(supabase, viewer?.id ?? null, reviews.map((r) => r.id));
   const path = `/games/${slug}${sort === "recent" ? "?reviews=recent" : ""}`;
   const tab = (active: boolean) =>
-    `rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
+    `relative rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
 
   return (
     <section aria-labelledby="reviews" className="flex flex-col gap-5">
@@ -27,10 +28,10 @@ export async function ReviewList({ gameId, slug, sort }: Props) {
         <nav aria-label={t("sortReviews")} className="flex gap-2">
           <Link href={`/games/${slug}`} scroll={false} aria-current={sort === "helpful" ? "true" : undefined} className={tab(sort === "helpful")}>
             {t("sortHelpful")}
-          </Link>
+          <LinkPending /></Link>
           <Link href={`/games/${slug}?reviews=recent`} scroll={false} aria-current={sort === "recent" ? "true" : undefined} className={tab(sort === "recent")}>
             {t("sortRecent")}
-          </Link>
+          <LinkPending /></Link>
         </nav>
       </div>
       {reviews.length === 0 ? (

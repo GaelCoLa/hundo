@@ -7,6 +7,7 @@ import { Cover } from "@/components/games/Cover";
 import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
 import { getScaleCategory, SCALE, type ScaleKey } from "@/lib/scale";
 import type { LibraryItem, LibrarySort } from "@/lib/profile-stats";
+import { LinkPending } from "@/components/LinkPending";
 
 export type LibraryEntry = LibraryItem & { slug: string; coverImageId: string | null };
 
@@ -19,7 +20,7 @@ export async function Library({ username, items, sort, cat }: Props) {
   const base = `/u/${username}`;
   const href = (s: LibrarySort, c: ScaleKey | null) => `${base}?sort=${s}${c ? `&cat=${c}` : ""}`;
   const pill = (active: boolean) =>
-    `rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
+    `relative rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
 
   return (
     <section aria-labelledby="library" className="flex flex-col gap-5">
@@ -31,18 +32,18 @@ export async function Library({ username, items, sort, cat }: Props) {
         {SORTS.map((s) => (
           <Link key={s} href={href(s, cat)} aria-current={s === sort ? "true" : undefined} className={pill(s === sort)}>
             {t(`sort.${s}`)}
-          </Link>
+          <LinkPending /></Link>
         ))}
       </nav>
       <nav aria-label={t("filterBy")} className="flex flex-wrap gap-2">
         <Link href={href(sort, null)} aria-current={cat === null ? "true" : undefined} className={pill(cat === null)}>
           {t("allCategories")}
-        </Link>
+        <LinkPending /></Link>
         {SCALE.map((c) => (
           <Link key={c.key} href={href(sort, c.key)} aria-current={cat === c.key ? "true" : undefined} className={`${pill(cat === c.key)} flex items-center gap-1.5`}>
             <span aria-hidden="true" className="size-2.5 rounded-sm" style={{ background: c.color }} />
             {ts(c.key)}
-          </Link>
+          <LinkPending /></Link>
         ))}
       </nav>
 

@@ -11,6 +11,7 @@ import { RankedGameRow } from "@/components/games/RankedGameRow";
 import { Link } from "@/i18n/navigation";
 import { getGenres, getMostReviewed, getTopRated } from "@/lib/explore";
 import { pickGenre } from "@/lib/community";
+import { LinkPending } from "@/components/LinkPending";
 
 export default async function GamesPage({ searchParams }: PageProps<"/[locale]/games">) {
   const t = await getTranslations("search");
@@ -76,7 +77,7 @@ async function Explore({ genreParam }: { genreParam: unknown }) {
   const genre = pickGenre(genreParam, genres.map((g) => g.genre));
   const [topRated, mostReviewed] = await Promise.all([getTopRated(genre), getMostReviewed()]);
   const chip = (active: boolean) =>
-    `rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
+    `relative rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
 
   return (
     <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
@@ -88,7 +89,7 @@ async function Explore({ genreParam }: { genreParam: unknown }) {
           <nav aria-label={t("byGenre")} className="flex flex-wrap gap-2">
             <Link href="/games" scroll={false} aria-current={genre === null ? "true" : undefined} className={chip(genre === null)}>
               {t("allGenres")}
-            </Link>
+            <LinkPending /></Link>
             {genres.map((g) => (
               <Link
                 key={g.genre}
@@ -98,7 +99,7 @@ async function Explore({ genreParam }: { genreParam: unknown }) {
                 className={chip(genre === g.genre)}
               >
                 {g.genre}
-              </Link>
+              <LinkPending /></Link>
             ))}
           </nav>
         ) : null}

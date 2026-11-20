@@ -71,6 +71,7 @@ Cada una termina mostrando `... tests passed`; si algo falla, Postgres corta con
   - `SUPABASE_SECRET_KEY` (secreta: Supabase → Project Settings → API Keys → Secret keys). La usa el servidor para guardar los datos de los juegos de IGDB.
   - `IGDB_CLIENT_ID` y `IGDB_CLIENT_SECRET` (dev.twitch.tv → Applications → Hundo → Manage). La misma app de Twitch sirve para desarrollo y producción.
 - Las variables secretas nunca llevan `NEXT_PUBLIC_`: ese prefijo las manda al navegador.
+- **Región del servidor:** `vercel.json` → `"regions": ["gru1"]` (São Paulo), la misma zona que la base de Supabase (`sa-east-1`). Cada página hace varias consultas a la base; con el servidor en otro continente, cada una tardaría ~0,12 s más.
 - **Mantener despierta la base:** en el plan gratis, Supabase pausa un proyecto tras 7 días sin actividad. `vercel.json` programa una visita diaria (12:00 UTC) a `/api/health`, que hace una consulta mínima (`ping`) y responde `{"ok":true}`. Se ve en Vercel → Settings → Cron Jobs.
 - **Recalcular notas:** `pg_cron` (dentro de Supabase) corre `refresh_all_game_stats()` todos los días a las 03:15 UTC, para que las cuentas que cumplen 3 días empiecen a contar. Se ve con `select * from cron.job`.
 - En Supabase hundo-prod → Authentication → URL Configuration: *Site URL* = la URL de Vercel y en *Redirect URLs* `<url de Vercel>/**`.

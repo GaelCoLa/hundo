@@ -10,6 +10,7 @@ import { parsePage, parseReviewSort } from "@/lib/community";
 import { fetchReviews, fetchViewerLikes } from "@/lib/reviews-server";
 import { ReviewCard } from "@/components/community/ReviewCard";
 import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
+import { LinkPending } from "@/components/LinkPending";
 
 const PER_PAGE = 20;
 type SearchParams = PageProps<"/[locale]/reviews">["searchParams"];
@@ -41,17 +42,17 @@ async function ReviewsFeed({ searchParams }: { searchParams: SearchParams }) {
   const href = (s: typeof sort, p: number) => `/reviews?${new URLSearchParams({ ...(s === "recent" ? { sort: s } : {}), ...(p > 1 ? { page: String(p) } : {}) })}`;
   const path = href(sort, page);
   const tab = (active: boolean) =>
-    `rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
+    `relative rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
 
   return (
     <>
       <nav aria-label={t("sortLabel")} className="flex gap-2">
         <Link href={href("helpful", 1)} aria-current={sort === "helpful" ? "true" : undefined} className={tab(sort === "helpful")}>
           {t("helpful")}
-        </Link>
+        <LinkPending /></Link>
         <Link href={href("recent", 1)} aria-current={sort === "recent" ? "true" : undefined} className={tab(sort === "recent")}>
           {t("recent")}
-        </Link>
+        <LinkPending /></Link>
       </nav>
 
       {reviews.length === 0 ? (
