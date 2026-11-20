@@ -205,5 +205,19 @@
     "noFollows": "Todavía no seguís a nadie. Seguí jugadores para ver acá lo que califican.",
     "findPlayers": "Buscar jugadores",
     "more": "Ver más"
+  },
+  "players": {
+    "title": "Jugadores",
+    "subtitle": "Encontrá a otros jugadores y mirá quiénes escriben las reseñas más útiles.",
+    "searchLabel": "Buscar jugadores",
+    "searchPlaceholder": "Nombre de usuario",
+    "search": "Buscar",
+    "tooShort": "Escribí al menos 2 caracteres.",
+    "noResults": "No hay jugadores que empiecen con “{q}”.",
+    "topReviewers": "Top reviewers",
+    "mostActive": "Más activos",
+    "emptyHelpful": "Todavía nadie recibió votos de útil.",
+    "emptyActive": "Todavía nadie calificó juegos.",
+    "stats": "{ratings, plural, one {# calificación} other {# calificaciones}} · {helpful} útil"
   }
 }

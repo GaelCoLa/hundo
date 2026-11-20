@@ -33,3 +33,13 @@ export function parseBefore(v: unknown): string | null {
   const d = new Date(v);
   return Number.isNaN(d.getTime()) ? null : d.toISOString();
 }
+
+/**
+ * Prepara un texto para buscarlo con LIKE/ILIKE. En LIKE, "%" significa
+ * "cualquier cosa" y "_" "un carácter cualquiera": sin escaparlos, buscar "%"
+ * devolvería a todos los usuarios. Primero se duplica la barra invertida (que
+ * es el carácter de escape) y después se escapan los comodines.
+ */
+export function escapeLike(term: string): string {
+  return term.replace(/\\/g, "\\\\").replace(/[%_]/g, (c) => `\\${c}`);
+}

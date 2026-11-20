@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isTopReviewer, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
+import { escapeLike, isTopReviewer, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
 
 describe("isTopReviewer", () => {
   test("hacen falta 50 'útil' recibidos (spec §5.3)", () => {
@@ -40,5 +40,16 @@ describe("parseBefore", () => {
     expect(parseBefore("")).toBeNull();
     expect(parseBefore(undefined)).toBeNull();
     expect(parseBefore(["x"])).toBeNull();
+  });
+});
+
+describe("escapeLike", () => {
+  test("los comodines de LIKE (% _ y la barra invertida) se buscan como texto literal", () => {
+    expect(escapeLike("gael")).toBe("gael");
+    // String.raw: las barras invertidas se escriben tal cual (sin escapar en JS).
+    expect(escapeLike("50%")).toBe(String.raw`50\%`);
+    expect(escapeLike("a_b")).toBe(String.raw`a\_b`);
+    expect(escapeLike(String.raw`x\y`)).toBe(String.raw`x\\y`);
+    expect(escapeLike(String.raw`%_\ `.trim())).toBe(String.raw`\%\_\\`);
   });
 });

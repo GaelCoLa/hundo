@@ -205,5 +205,19 @@
     "noFollows": "You're not following anyone yet. Follow players to see what they rate here.",
     "findPlayers": "Find players",
     "more": "Load more"
+  },
+  "players": {
+    "title": "Players",
+    "subtitle": "Find other players and see who writes the most helpful reviews.",
+    "searchLabel": "Search players",
+    "searchPlaceholder": "Username",
+    "search": "Search",
+    "tooShort": "Type at least 2 characters.",
+    "noResults": "No players starting with “{q}”.",
+    "topReviewers": "Top reviewers",
+    "mostActive": "Most active",
+    "emptyHelpful": "No one has received helpful votes yet.",
+    "emptyActive": "No one has rated any games yet.",
+    "stats": "{ratings, plural, one {# rating} other {# ratings}} · {helpful} helpful"
   }
 }
