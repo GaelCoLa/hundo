@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { TopReviewerBadge } from "@/components/community/TopReviewerBadge";
 import { FollowButton } from "@/components/community/FollowButton";
 import { Avatar } from "@/components/Avatar";
+import { Favorites, type FavoriteEntry } from "@/components/profile/Favorites";
 import { computeProfileStats, sortLibrary, type LibrarySort } from "@/lib/profile-stats";
 import { SCALE, getScaleCategory, type ScaleKey } from "@/lib/scale";
 import { StatsPanel } from "@/components/profile/StatsPanel";
@@ -66,6 +67,18 @@ async function Profile({ params, searchParams }: Props) {
       updatedAt: r.updated_at,
     }));
 
+  // Top 5: la nota de cada favorito sale de las calificaciones ya cargadas.
+  const { data: favRows } = await supabase
+    .from("favorites")
+    .select("position, games(slug, name, cover_image_id)")
+    .eq("user_id", profile.id)
+    .order("position")
+    .returns<{ position: number; games: { slug: string; name: string; cover_image_id: string | null } | null }[]>();
+  const scoreBySlug = new Map(all.map((e) => [e.slug, e.score]));
+  const favorites: FavoriteEntry[] = (favRows ?? [])
+    .filter((f) => f.games)
+    .map((f) => ({ position: f.position, slug: f.games!.slug, name: f.games!.name, coverImageId: f.games!.cover_image_id, score: scoreBySlug.get(f.games!.slug) ?? null }));
+
   const sortParam = typeof query.sort === "string" ? query.sort : "";
   const sort: LibrarySort = (SORTS as string[]).includes(sortParam) ? (sortParam as LibrarySort) : "recent";
   const catParam = typeof query.cat === "string" ? query.cat : "";
@@ -115,6 +128,7 @@ async function Profile({ params, searchParams }: Props) {
           </div>
         )}
       </header>
+      <Favorites items={favorites} />
       <StatsPanel stats={computeProfileStats(all)} />
       <Library username={profile.username} items={items} sort={sort} cat={cat} />
     </>

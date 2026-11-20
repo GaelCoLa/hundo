@@ -119,8 +119,16 @@
       "avatar_too_big": "The photo can be up to 2 MB.",
       "avatar_empty": "Choose an image.",
       "not_signed_in": "Your session expired. Sign in again.",
-      "unknown": "We couldn't save your changes. Try again in a moment."
-    }
+      "unknown": "We couldn't save your changes. Try again in a moment.",
+      "favorites_too_many": "You can pick up to 5 games.",
+      "favorites_duplicate": "You picked the same game twice.",
+      "favorites_not_rated": "You can only pick games you rated."
+    },
+    "favoritesTitle": "Top 5 favorites",
+    "favoritesHint": "Pick your 5 favorite games from the ones you rated. They show on your profile in this order.",
+    "favoritesEmpty": "Rate a game to be able to pick your favorites.",
+    "favoritePosition": "Favorite number {pos}",
+    "favoritesSaved": "Top 5 saved."
   },
   "search": {
     "title": "Games",
@@ -197,7 +205,8 @@
     },
     "empty": "No games rated yet.",
     "emptyCategory": "No games in this category.",
-    "memberSince": "Member since {date, date, ::MMMMyyyy}"
+    "memberSince": "Member since {date, date, ::MMMMyyyy}",
+    "top5": "Top 5"
   },
   "community": {
     "helpful": "Helpful",

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { avatarPublicUrl, parseProfileInput, validateAvatar } from "@/lib/profile-input";
+import { avatarPublicUrl, parseProfileInput, validateAvatar, validateFavorites } from "@/lib/profile-input";
 
 const MB = 1024 * 1024;
 const UUID = "0b5d6f2a-1c3e-4a7b-9d8e-123456789abc";
@@ -39,5 +39,19 @@ describe("avatarPublicUrl", () => {
     expect(avatarPublicUrl("../x.png", "https://x.supabase.co")).toBeNull();
     expect(avatarPublicUrl(`${UUID}/a.svg`, "https://x.supabase.co")).toBeNull();
     expect(avatarPublicUrl(null, "https://x.supabase.co")).toBeNull();
+  });
+});
+
+describe("validateFavorites", () => {
+  const rated = new Set([1, 2, 3, 4, 5, 6]);
+  test("mantiene el orden elegido y saltea los huecos", () => {
+    expect(validateFavorites([3, 1, 2], rated)).toEqual({ ok: true, value: [3, 1, 2] });
+    expect(validateFavorites([1, 0, 2, NaN], rated)).toEqual({ ok: true, value: [1, 2] });
+    expect(validateFavorites([], rated)).toEqual({ ok: true, value: [] });
+  });
+  test("sin repetidos, máximo 5, solo juegos calificados", () => {
+    expect(validateFavorites([1, 1], rated)).toEqual({ ok: false, error: "favorites_duplicate" });
+    expect(validateFavorites([1, 2, 3, 4, 5, 6], rated)).toEqual({ ok: false, error: "favorites_too_many" });
+    expect(validateFavorites([9], new Set([1]))).toEqual({ ok: false, error: "favorites_not_rated" });
   });
 });

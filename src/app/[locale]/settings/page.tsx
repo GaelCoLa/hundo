@@ -8,6 +8,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { Avatar } from "@/components/Avatar";
 import { ProfileForm } from "@/components/settings/ProfileForm";
+import { FavoritesForm } from "@/components/settings/FavoritesForm";
 
 export default async function SettingsPage() {
   const t = await getTranslations("settings");
@@ -28,7 +29,16 @@ async function AccountDetails() {
   if (!user) redirect(`/${lang}/login?next=/settings`);
 
   const [t, supabase] = await Promise.all([getTranslations("settings"), createClient()]);
-  const { data: profile } = await supabase.from("profiles").select("display_name, bio").eq("id", user.id).single();
+  const [{ data: profile }, { data: rated }, { data: favorites }] = await Promise.all([
+    supabase.from("profiles").select("display_name, bio").eq("id", user.id).single(),
+    // Juegos calificados, para elegir el Top 5 (orden alfabético).
+    supabase.from("ratings").select("game_id, games(name)").eq("user_id", user.id).returns<{ game_id: number; games: { name: string } | null }[]>(),
+    supabase.from("favorites").select("game_id").eq("user_id", user.id).order("position"),
+  ]);
+  const options = (rated ?? [])
+    .filter((r) => r.games)
+    .map((r) => ({ id: r.game_id, name: r.games!.name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
   return (
     <>
       <dl className="grid gap-4 rounded-[20px] bg-surface p-6 sm:grid-cols-2 sm:p-8">
@@ -47,6 +57,7 @@ async function AccountDetails() {
         displayName={profile?.display_name ?? null}
         bio={profile?.bio ?? null}
       />
+      <FavoritesForm options={options} current={(favorites ?? []).map((f) => f.game_id as number)} />
     </>
   );
 }

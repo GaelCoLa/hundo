@@ -46,3 +46,18 @@ export function avatarPublicUrl(path: string | null, supabaseUrl: string): strin
   if (!path || !AVATAR_PATH.test(path)) return null;
   return `${supabaseUrl}/storage/v1/object/public/avatars/${path}`;
 }
+
+export type FavoritesError = "favorites_too_many" | "favorites_duplicate" | "favorites_not_rated";
+
+/**
+ * Top 5 favoritos: lo elegido en los 5 desplegables, en orden. Los desplegables
+ * vacíos (0 o NaN) se saltean; no puede haber más de 5, ni repetidos, ni juegos
+ * que el usuario no calificó.
+ */
+export function validateFavorites(gameIds: number[], rated: ReadonlySet<number>): { ok: true; value: number[] } | { ok: false; error: FavoritesError } {
+  const picked = gameIds.filter((id) => Number.isInteger(id) && id > 0);
+  if (picked.length > 5) return { ok: false, error: "favorites_too_many" };
+  if (new Set(picked).size !== picked.length) return { ok: false, error: "favorites_duplicate" };
+  if (picked.some((id) => !rated.has(id))) return { ok: false, error: "favorites_not_rated" };
+  return { ok: true, value: picked };
+}

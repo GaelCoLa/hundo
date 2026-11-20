@@ -34,4 +34,7 @@ insert into public.follows (follower_id, followee_id) values
   ('00000000-0000-0000-0000-00000000de02', '00000000-0000-0000-0000-00000000de01'),
   ('00000000-0000-0000-0000-00000000de03', '00000000-0000-0000-0000-00000000de01');
 
+-- ana tiene Hades en su Top 5.
+insert into public.favorites (user_id, position, game_id) values ('00000000-0000-0000-0000-00000000de01', 1, 113112);
+
 select 'dev community seed done' as result;

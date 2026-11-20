@@ -5,10 +5,11 @@
 import { refresh } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { parseProfileInput, validateAvatar, type AvatarError, type ProfileInputError } from "@/lib/profile-input";
+import { parseProfileInput, validateAvatar, validateFavorites, type AvatarError, type FavoritesError, type ProfileInputError } from "@/lib/profile-input";
 
 export type ProfileState = { error?: ProfileInputError | "not_signed_in" | "unknown"; saved?: boolean };
 export type AvatarState = { error?: AvatarError | "not_signed_in" | "unknown"; saved?: boolean };
+export type FavoritesState = { error?: FavoritesError | "not_signed_in" | "unknown"; saved?: boolean };
 
 export async function updateProfile(_prev: ProfileState, formData: FormData): Promise<ProfileState> {
   const user = await getCurrentUser();
@@ -71,4 +72,33 @@ export async function removeAvatar(): Promise<void> {
   }
   await supabase.storage.from("avatars").remove([user.avatarUrl]);
   refresh();
+}
+
+/** Guarda el Top 5 (campos fav1..fav5, en orden): borra los anteriores e inserta los nuevos. */
+export async function updateFavorites(_prev: FavoritesState, formData: FormData): Promise<FavoritesState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "not_signed_in" };
+  const supabase = await createClient();
+
+  const { data: rated } = await supabase.from("ratings").select("game_id").eq("user_id", user.id);
+  const ids = [1, 2, 3, 4, 5].map((i) => Number(formData.get(`fav${i}`)));
+  const check = validateFavorites(ids, new Set((rated ?? []).map((r) => r.game_id as number)));
+  if (!check.ok) return { error: check.error };
+
+  const { error: deleteError } = await supabase.from("favorites").delete().eq("user_id", user.id);
+  if (deleteError) {
+    console.error("updateFavorites delete failed", deleteError.code, deleteError.message);
+    return { error: "unknown" };
+  }
+  if (check.value.length > 0) {
+    const { error } = await supabase
+      .from("favorites")
+      .insert(check.value.map((gameId, i) => ({ user_id: user.id, position: i + 1, game_id: gameId })));
+    if (error) {
+      console.error("updateFavorites insert failed", error.code, error.message);
+      return { error: "unknown" };
+    }
+  }
+  refresh();
+  return { saved: true };
 }

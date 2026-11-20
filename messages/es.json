@@ -119,8 +119,16 @@
       "avatar_too_big": "La foto puede pesar hasta 2 MB.",
       "avatar_empty": "Elegí una imagen.",
       "not_signed_in": "Tu sesión venció. Ingresá de nuevo.",
-      "unknown": "No pudimos guardar los cambios. Probá de nuevo en un momento."
-    }
+      "unknown": "No pudimos guardar los cambios. Probá de nuevo en un momento.",
+      "favorites_too_many": "Podés elegir hasta 5 juegos.",
+      "favorites_duplicate": "Elegiste el mismo juego dos veces.",
+      "favorites_not_rated": "Solo podés elegir juegos que calificaste."
+    },
+    "favoritesTitle": "Top 5 favoritos",
+    "favoritesHint": "Elegí tus 5 juegos favoritos entre los que calificaste. Se muestran en tu perfil en este orden.",
+    "favoritesEmpty": "Calificá algún juego para poder elegir tus favoritos.",
+    "favoritePosition": "Favorito número {pos}",
+    "favoritesSaved": "Top 5 guardado."
   },
   "search": {
     "title": "Juegos",
@@ -197,7 +205,8 @@
     },
     "empty": "Todavía no calificó ningún juego.",
     "emptyCategory": "No hay juegos en esta categoría.",
-    "memberSince": "Miembro desde {date, date, ::MMMMyyyy}"
+    "memberSince": "Miembro desde {date, date, ::MMMMyyyy}",
+    "top5": "Top 5"
   },
   "community": {
     "helpful": "Útil",
