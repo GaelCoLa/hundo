@@ -22,8 +22,8 @@ describe("computeProfileStats", () => {
   test("coincide con la hoja 'Resumen' del Excel", () => {
     const stats = computeProfileStats(EXCEL);
     expect(stats.count).toBe(13);
-    expect(stats.average).toBe(84.7); // 1101 / 13
-    expect(stats.averageOutOfTen).toBe("8.5");
+    // El promedio no se muestra en el perfil (decisión de Gael, 20/11/2026).
+    expect(stats).not.toHaveProperty("average");
     expect(stats.totalHours).toBe(503.5);
     expect(stats.finishedCount).toBe(13);
     expect(stats.byCategory).toEqual({
@@ -39,7 +39,7 @@ describe("computeProfileStats", () => {
 
   test("biblioteca vacía", () => {
     const stats = computeProfileStats([]);
-    expect(stats).toMatchObject({ count: 0, average: null, averageOutOfTen: null, totalHours: 0, finishedCount: 0 });
+    expect(stats).toMatchObject({ count: 0, totalHours: 0, finishedCount: 0 });
   });
 
   test("ignora horas y fechas vacías", () => {
@@ -49,7 +49,6 @@ describe("computeProfileStats", () => {
     ]);
     expect(stats.totalHours).toBe(10.3);
     expect(stats.finishedCount).toBe(1);
-    expect(stats.average).toBe(60);
   });
 });
 

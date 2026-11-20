@@ -5,8 +5,6 @@ type StatsInput = { score: number; hoursPlayed: number | null; finishedOn: strin
 
 export type ProfileStats = {
   count: number;
-  average: number | null; // con un decimal
-  averageOutOfTen: string | null;
   totalHours: number;
   finishedCount: number;
   byCategory: Record<ScaleKey, number>;
@@ -16,22 +14,17 @@ const oneDecimal = (n: number) => Math.round(n * 10) / 10;
 
 export function computeProfileStats(ratings: StatsInput[]): ProfileStats {
   const byCategory = Object.fromEntries(SCALE.map((c) => [c.key, 0])) as Record<ScaleKey, number>;
-  let sum = 0;
   let hours = 0;
   let finished = 0;
 
   for (const r of ratings) {
-    sum += r.score;
     hours += r.hoursPlayed ?? 0;
     if (r.finishedOn) finished += 1;
     byCategory[getScaleCategory(r.score).key] += 1;
   }
 
-  const raw = ratings.length > 0 ? sum / ratings.length : null;
   return {
     count: ratings.length,
-    average: raw === null ? null : oneDecimal(raw),
-    averageOutOfTen: raw === null ? null : (raw / 10).toFixed(1),
     totalHours: oneDecimal(hours),
     finishedCount: finished,
     byCategory,

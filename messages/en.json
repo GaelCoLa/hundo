@@ -153,7 +153,6 @@
   },
   "profile": {
     "statsTitle": "Stats",
-    "average": "Average score",
     "games": "Games rated",
     "hours": "Hours logged",
     "byCategory": "Games by category",

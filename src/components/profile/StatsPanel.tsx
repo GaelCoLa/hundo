@@ -1,11 +1,10 @@
 // Panel de estadísticas del perfil: la hoja "Resumen" de la planilla, en la web.
 import { getTranslations } from "next-intl/server";
-import { getScaleCategory, SCALE } from "@/lib/scale";
+import { SCALE } from "@/lib/scale";
 import type { ProfileStats } from "@/lib/profile-stats";
 
 export async function StatsPanel({ stats }: { stats: ProfileStats }) {
   const [t, ts] = await Promise.all([getTranslations("profile"), getTranslations("scale")]);
-  const avgColor = stats.average !== null ? getScaleCategory(Math.min(100, Math.max(1, Math.round(stats.average)))).color : undefined;
   const max = Math.max(1, ...Object.values(stats.byCategory));
 
   return (
@@ -13,13 +12,7 @@ export async function StatsPanel({ stats }: { stats: ProfileStats }) {
       <h2 id="stats" className="sr-only">
         {t("statsTitle")}
       </h2>
-      <dl className="grid grid-cols-3 gap-4 lg:grid-cols-1 lg:gap-5 lg:pr-8">
-        <div className="flex flex-col">
-          <dt className="order-2 text-sm text-muted">{t("average")}</dt>
-          <dd className="order-1 font-display text-6xl font-black leading-none" style={{ color: avgColor }}>
-            {stats.average ?? "—"}
-          </dd>
-        </div>
+      <dl className="grid grid-cols-2 gap-4 lg:grid-cols-1 lg:gap-5 lg:pr-8">
         <div className="flex flex-col">
           <dt className="order-2 text-sm text-muted">{t("games")}</dt>
           <dd className="order-1 font-display text-5xl font-black leading-none">{stats.count}</dd>
