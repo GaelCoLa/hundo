@@ -99,7 +99,28 @@
   "settings": {
     "title": "Configuración",
     "username": "Usuario",
-    "email": "Email"
+    "email": "Email",
+    "profileTitle": "Perfil",
+    "changePhoto": "Cambiar foto",
+    "uploading": "Subiendo…",
+    "removePhoto": "Quitar foto",
+    "photoHint": "PNG, JPG o WebP, hasta {mb} MB.",
+    "photoSaved": "Foto actualizada.",
+    "displayName": "Nombre visible (opcional)",
+    "displayNamePlaceholder": "Cómo querés que te vean",
+    "bio": "Bio (opcional)",
+    "bioPlaceholder": "Qué jugás, qué te gusta, qué buscás en un juego.",
+    "profileSaved": "Perfil guardado.",
+    "save": "Guardar",
+    "errors": {
+      "display_name_too_long": "El nombre visible puede tener hasta 40 caracteres.",
+      "bio_too_long": "La bio puede tener hasta 300 caracteres.",
+      "avatar_type": "La foto tiene que ser PNG, JPG o WebP.",
+      "avatar_too_big": "La foto puede pesar hasta 2 MB.",
+      "avatar_empty": "Elegí una imagen.",
+      "not_signed_in": "Tu sesión venció. Ingresá de nuevo.",
+      "unknown": "No pudimos guardar los cambios. Probá de nuevo en un momento."
+    }
   },
   "search": {
     "title": "Juegos",

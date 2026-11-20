@@ -11,6 +11,7 @@ import { Logo } from "./Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SearchBox } from "./games/SearchBox";
 import { AccountMenu } from "./AccountMenu";
+import { Avatar } from "./Avatar";
 
 export async function SiteHeader() {
   const t = await getTranslations("nav");
@@ -60,9 +61,7 @@ async function AccountButton() {
       label={t("accountMenu")}
       summary={
         <>
-          <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-lg bg-accent text-sm font-bold uppercase text-accent-ink">
-            {user.username[0]}
-          </span>
+          <Avatar username={user.username} avatarPath={user.avatarUrl} size={28} className="rounded-lg text-sm" />
           @{user.username}
         </>
       }

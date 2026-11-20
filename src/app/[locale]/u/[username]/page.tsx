@@ -8,6 +8,7 @@ import { isTopReviewer } from "@/lib/community";
 import { Link } from "@/i18n/navigation";
 import { TopReviewerBadge } from "@/components/community/TopReviewerBadge";
 import { FollowButton } from "@/components/community/FollowButton";
+import { Avatar } from "@/components/Avatar";
 import { computeProfileStats, sortLibrary, type LibrarySort } from "@/lib/profile-stats";
 import { SCALE, getScaleCategory, type ScaleKey } from "@/lib/scale";
 import { StatsPanel } from "@/components/profile/StatsPanel";
@@ -42,7 +43,7 @@ async function Profile({ params, searchParams }: Props) {
   // Las reglas RLS ya ocultan los perfiles suspendidos: para el visitante "no existen".
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, username, created_at, helpful_received")
+    .select("id, username, created_at, helpful_received, display_name, bio, avatar_url")
     .eq("username", username.toLowerCase())
     .maybeSingle();
   if (!profile) notFound();
@@ -86,16 +87,16 @@ async function Profile({ params, searchParams }: Props) {
   return (
     <>
       <header className="flex flex-wrap items-center gap-5">
-        <span aria-hidden="true" className="flex size-20 items-center justify-center rounded-[22px] bg-accent font-display text-5xl font-black uppercase text-accent-ink">
-          {profile.username[0]}
-        </span>
+        <Avatar username={profile.username} avatarPath={profile.avatar_url} size={80} className="rounded-[22px] font-display text-5xl font-black" />
         <div className="flex grow flex-col gap-1">
+          {profile.display_name ? <p className="text-lg font-semibold text-soft">{profile.display_name}</p> : null}
           <h1 className="font-display text-5xl font-black leading-none sm:text-6xl">@{profile.username}</h1>
           <p className="flex flex-wrap items-center gap-2 text-sm text-muted">
             {t("memberSince", { date: new Date(profile.created_at) })}
             {isTopReviewer(profile.helpful_received) ? <TopReviewerBadge /> : null}
           </p>
           <p className="text-sm text-soft">{tc("followingCount", { count: followingCount.count ?? 0 })}</p>
+          {profile.bio ? <p className="max-w-prose whitespace-pre-line pt-1 leading-relaxed text-[#d3d8e6]">{profile.bio}</p> : null}
         </div>
         {viewer && viewer.id === profile.id ? (
           <span className="text-sm text-soft">

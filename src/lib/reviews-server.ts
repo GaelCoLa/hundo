@@ -14,7 +14,7 @@ export type ReviewData = {
   hoursPlayed: number | null;
   finishedOn: string | null;
   helpfulCount: number;
-  author: { id: string; username: string; helpfulReceived: number } | null;
+  author: { id: string; username: string; helpfulReceived: number; avatarUrl: string | null } | null;
   game: { slug: string; name: string; coverImageId: string | null } | null;
 };
 
@@ -26,7 +26,7 @@ type Row = {
   hours_played: number | string | null;
   finished_on: string | null;
   helpful_count: number;
-  profiles: { id: string; username: string; helpful_received: number } | null;
+  profiles: { id: string; username: string; helpful_received: number; avatar_url: string | null } | null;
   games: { slug: string; name: string; cover_image_id: string | null } | null;
 };
 
@@ -35,7 +35,7 @@ type Row = {
 // existe review_likes hay DOS formas de llegar de ratings a profiles (el autor,
 // o quienes votaron "útil"), y sin aclararlo Supabase no sabe cuál usar.
 const SELECT =
-  "id, score, review, has_spoilers, hours_played, finished_on, helpful_count, profiles!ratings_user_id_fkey(id, username, helpful_received), games(slug, name, cover_image_id)";
+  "id, score, review, has_spoilers, hours_played, finished_on, helpful_count, profiles!ratings_user_id_fkey(id, username, helpful_received, avatar_url), games(slug, name, cover_image_id)";
 
 /**
  * Reseñas visibles (con texto), en el orden pedido. El filtro de "sin texto"
@@ -63,7 +63,7 @@ export async function fetchReviews(
     hoursPlayed: r.hours_played === null ? null : Number(r.hours_played),
     finishedOn: r.finished_on,
     helpfulCount: r.helpful_count,
-    author: r.profiles ? { id: r.profiles.id, username: r.profiles.username, helpfulReceived: r.profiles.helpful_received } : null,
+    author: r.profiles ? { id: r.profiles.id, username: r.profiles.username, helpfulReceived: r.profiles.helpful_received, avatarUrl: r.profiles.avatar_url } : null,
     game: r.games ? { slug: r.games.slug, name: r.games.name, coverImageId: r.games.cover_image_id } : null,
   }));
 }

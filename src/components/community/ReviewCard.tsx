@@ -7,6 +7,7 @@ import { getScaleCategory } from "@/lib/scale";
 import { isTopReviewer } from "@/lib/community";
 import type { ReviewData } from "@/lib/reviews-server";
 import { Cover } from "@/components/games/Cover";
+import { Avatar } from "@/components/Avatar";
 import { HelpfulButton } from "./HelpfulButton";
 import { TopReviewerBadge } from "./TopReviewerBadge";
 
@@ -38,9 +39,7 @@ export async function ReviewCard({ review: r, viewerId, likedByViewer, path, sho
         </Link>
       ) : null}
       <header className="flex items-center gap-3.5">
-        <span aria-hidden="true" className="flex size-11 items-center justify-center rounded-[14px] bg-accent font-bold uppercase text-accent-ink">
-          {r.author?.username[0] ?? "?"}
-        </span>
+        <Avatar username={r.author?.username ?? "?"} avatarPath={r.author?.avatarUrl ?? null} size={44} />
         <div className="flex grow flex-col">
           {r.author ? (
             <span className="flex flex-wrap items-center gap-2">

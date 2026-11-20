@@ -1,10 +1,13 @@
-// Configuración de la cuenta. Por ahora muestra los datos básicos; en fases
-// siguientes se suma editar perfil, idioma y borrar la cuenta.
+// Configuración de la cuenta: datos básicos y editar el perfil (foto, nombre
+// visible, bio).
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { locale } from "next/root-params";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
+import { Avatar } from "@/components/Avatar";
+import { ProfileForm } from "@/components/settings/ProfileForm";
 
 export default async function SettingsPage() {
   const t = await getTranslations("settings");
@@ -24,17 +27,26 @@ async function AccountDetails() {
   const user = await getCurrentUser();
   if (!user) redirect(`/${lang}/login?next=/settings`);
 
-  const t = await getTranslations("settings");
+  const [t, supabase] = await Promise.all([getTranslations("settings"), createClient()]);
+  const { data: profile } = await supabase.from("profiles").select("display_name, bio").eq("id", user.id).single();
   return (
-    <dl className="grid gap-4 rounded-[20px] bg-surface p-6 sm:grid-cols-2 sm:p-8">
-      <div>
-        <dt className="text-sm text-muted">{t("username")}</dt>
-        <dd className="mt-1 text-lg font-semibold">@{user.username}</dd>
-      </div>
-      <div>
-        <dt className="text-sm text-muted">{t("email")}</dt>
-        <dd className="mt-1 text-lg font-semibold break-all">{user.email}</dd>
-      </div>
-    </dl>
+    <>
+      <dl className="grid gap-4 rounded-[20px] bg-surface p-6 sm:grid-cols-2 sm:p-8">
+        <div>
+          <dt className="text-sm text-muted">{t("username")}</dt>
+          <dd className="mt-1 text-lg font-semibold">@{user.username}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-muted">{t("email")}</dt>
+          <dd className="mt-1 text-lg font-semibold break-all">{user.email}</dd>
+        </div>
+      </dl>
+      <ProfileForm
+        avatar={<Avatar username={user.username} avatarPath={user.avatarUrl} size={80} className="rounded-[22px] text-3xl" />}
+        hasAvatar={user.avatarUrl !== null}
+        displayName={profile?.display_name ?? null}
+        bio={profile?.bio ?? null}
+      />
+    </>
   );
 }

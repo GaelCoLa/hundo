@@ -11,6 +11,8 @@ export type CurrentUser = {
   email: string;
   username: string;
   isAdmin: boolean;
+  /** Ruta del avatar en Storage (o null). */
+  avatarUrl: string | null;
 };
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
@@ -26,7 +28,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, is_admin")
+    .select("username, is_admin, avatar_url")
     .eq("id", claims.sub)
     .single();
   if (!profile) return null;
@@ -36,5 +38,6 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     email: typeof claims.email === "string" ? claims.email : "",
     username: profile.username,
     isAdmin: profile.is_admin,
+    avatarUrl: profile.avatar_url,
   };
 });
