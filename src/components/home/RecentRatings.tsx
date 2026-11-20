@@ -1,0 +1,67 @@
+// "Calificaciones recientes" de la portada: las últimas 8 notas públicas.
+// Se calcula en cada visita (va dentro de <Suspense> en la portada), así la
+// portada muestra actividad real sin tener que regenerarse a mano.
+// Si todavía no hay ninguna calificación, la sección no se muestra.
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getScaleCategory } from "@/lib/scale";
+import { Cover } from "@/components/games/Cover";
+
+type RecentRow = {
+  id: string;
+  score: number;
+  games: { slug: string; name: string; cover_image_id: string | null } | null;
+  profiles: { username: string } | null;
+};
+
+export async function RecentRatings() {
+  const [t, ts, supabase] = await Promise.all([getTranslations("home"), getTranslations("scale"), createClient()]);
+  // RLS ya oculta perfiles suspendidos; is_hidden se filtra explícito porque
+  // el dueño de una nota oculta igual la vería.
+  const { data } = await supabase
+    .from("ratings")
+    .select("id, score, games(slug, name, cover_image_id), profiles(username)")
+    .eq("is_hidden", false)
+    .order("updated_at", { ascending: false })
+    .limit(8)
+    .returns<RecentRow[]>();
+
+  const items = (data ?? []).filter((r) => r.games && r.profiles);
+  if (items.length === 0) return null;
+
+  return (
+    <section aria-labelledby="recent" className="flex flex-col gap-5">
+      <h2 id="recent" className="font-display text-4xl font-black uppercase">
+        {t("recentTitle")}
+      </h2>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {items.map((r) => {
+          const category = getScaleCategory(r.score);
+          return (
+            <li key={r.id} className="flex flex-col gap-2">
+              <Link href={`/games/${r.games!.slug}`} className="group relative block rounded-xl">
+                <Cover imageId={r.games!.cover_image_id} name={r.games!.name} size="t_cover_big" className="transition group-hover:ring-2 group-hover:ring-accent" />
+                <span
+                  className="absolute bottom-2 right-2 rounded-lg bg-bg/90 px-2 py-1 font-display text-2xl font-black leading-none"
+                  style={{ color: category.color }}
+                  aria-label={ts("ringLabel", { score: r.score, category: ts(category.key) })}
+                >
+                  {r.score}
+                </span>
+              </Link>
+              <span className="flex flex-col">
+                <Link href={`/games/${r.games!.slug}`} className="line-clamp-1 font-semibold leading-tight hover:underline">
+                  {r.games!.name}
+                </Link>
+                <Link href={`/u/${r.profiles!.username}`} className="text-sm text-muted hover:text-ink">
+                  @{r.profiles!.username}
+                </Link>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}

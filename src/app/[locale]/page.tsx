@@ -1,10 +1,12 @@
 // Portada, según la maqueta aprobada "Mix". La tarjeta de la derecha es un
-// EJEMPLO (lo dice en pantalla): las notas reales llegan en la Fase 2.
+// EJEMPLO (lo dice en pantalla). Abajo, las calificaciones reales más recientes.
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScoreRing } from "@/components/ScoreRing";
 import { ScaleBar } from "@/components/ScaleBar";
 import { SCALE } from "@/lib/scale";
+import { RecentRatings } from "@/components/home/RecentRatings";
 
 // Distribución de ejemplo (porcentaje de jugadores por categoría) para la tarjeta.
 const EXAMPLE_DISTRIBUTION = [2, 2, 3, 6, 9, 22, 56];
@@ -56,6 +58,12 @@ export default function HomePage() {
           </div>
         </article>
       </section>
+
+      {/* Lo único dinámico de la portada: el resto se pre-genera. Sin fallback visible
+          para que no "salte" un hueco vacío cuando todavía no hay calificaciones. */}
+      <Suspense fallback={null}>
+        <RecentRatings />
+      </Suspense>
 
       <section className="flex flex-col gap-5">
         <div className="flex flex-wrap items-baseline justify-between gap-3">

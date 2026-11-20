@@ -46,7 +46,13 @@ Cada una termina mostrando `... tests passed`; si algo falla, Postgres corta con
 ## Deploy
 
 - El código vive en GitHub; **Vercel** publica solo cada vez que se sube un cambio a la rama `main`.
-- Variables en Vercel (Settings → Environment Variables): `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` de **hundo-prod**.
+- Variables en Vercel (Settings → Environment Variables), todas de **hundo-prod**:
+  - `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (públicas).
+  - `SUPABASE_SECRET_KEY` (secreta: Supabase → Project Settings → API Keys → Secret keys). La usa el servidor para guardar los datos de los juegos de IGDB.
+  - `IGDB_CLIENT_ID` y `IGDB_CLIENT_SECRET` (dev.twitch.tv → Applications → Hundo → Manage). La misma app de Twitch sirve para desarrollo y producción.
+- Las variables secretas nunca llevan `NEXT_PUBLIC_`: ese prefijo las manda al navegador.
+- **Mantener despierta la base:** en el plan gratis, Supabase pausa un proyecto tras 7 días sin actividad. `vercel.json` programa una visita diaria (12:00 UTC) a `/api/health`, que hace una consulta mínima (`ping`) y responde `{"ok":true}`. Se ve en Vercel → Settings → Cron Jobs.
+- **Recalcular notas:** `pg_cron` (dentro de Supabase) corre `refresh_all_game_stats()` todos los días a las 03:15 UTC, para que las cuentas que cumplen 3 días empiecen a contar. Se ve con `select * from cron.job`.
 - En Supabase hundo-prod → Authentication → URL Configuration: *Site URL* = la URL de Vercel y en *Redirect URLs* `<url de Vercel>/**`.
 - Emails de confirmación: SMTP propio (Brevo) en Authentication → Emails → SMTP Settings. El SMTP incluido en Supabase solo envía a miembros del equipo.
   - Servidor `smtp-relay.brevo.com`, puerto `587`, usuario = el *Login* de Brevo (Settings → SMTP y API).

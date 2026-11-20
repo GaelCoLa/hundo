@@ -25,7 +25,8 @@
     "exampleMeta": "2019, Survival horror",
     "communityScoreFrom": "Community score from {count} players",
     "howItWorks": "How scores work",
-    "scaleTitle": "The scale"
+    "scaleTitle": "The scale",
+    "recentTitle": "Recent ratings"
   },
   "scale": {
     "mediocre": "Mediocre",
