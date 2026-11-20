@@ -14,23 +14,26 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { CommunityScoreCard } from "@/components/games/CommunityScoreCard";
 import { RatingForm, type ExistingRating } from "@/components/rating/RatingForm";
 import { ReviewList } from "@/components/rating/ReviewList";
+import { parseReviewSort } from "@/lib/community";
 
 type Params = PageProps<"/[locale]/games/[slug]">["params"];
+type SearchParams = PageProps<"/[locale]/games/[slug]">["searchParams"];
 
-export default function GamePage({ params }: PageProps<"/[locale]/games/[slug]">) {
+export default function GamePage({ params, searchParams }: PageProps<"/[locale]/games/[slug]">) {
   return (
     // relative + isolate: el fondo difuminado (z-index negativo) queda detrás del
     // contenido pero delante del fondo del sitio.
     <main className="relative isolate mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
       <Suspense fallback={<div className="h-96 rounded-[28px] bg-surface" aria-busy="true" />}>
-        <GameView params={params} />
+        <GameView params={params} searchParams={searchParams} />
       </Suspense>
     </main>
   );
 }
 
-async function GameView({ params }: { params: Params }) {
-  const { slug } = await params;
+async function GameView({ params, searchParams }: { params: Params; searchParams: SearchParams }) {
+  const [{ slug }, query] = await Promise.all([params, searchParams]);
+  const reviewSort = parseReviewSort(query.reviews);
   const game = await getGame(slug);
   if (!game) notFound();
   const t = await getTranslations("game");
@@ -60,7 +63,7 @@ async function GameView({ params }: { params: Params }) {
           <YourRating gameId={game.id} slug={game.slug} />
         </Suspense>
         <Suspense fallback={<div className="h-64 rounded-[20px] bg-surface" aria-busy="true" />}>
-          <ReviewList gameId={game.id} />
+          <ReviewList gameId={game.id} slug={game.slug} sort={reviewSort} />
         </Suspense>
       </section>
     </>

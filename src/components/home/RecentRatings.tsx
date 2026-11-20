@@ -23,7 +23,8 @@ export async function RecentRatings() {
   // el dueño de una nota oculta igual la vería.
   const { data } = await supabase
     .from("ratings")
-    .select("id, score, games(slug, name, cover_image_id), profiles(username)")
+    // "!ratings_user_id_fkey": el autor (no quienes votaron "útil"; ver reviews-server.ts).
+    .select("id, score, games(slug, name, cover_image_id), profiles!ratings_user_id_fkey(username)")
     .eq("is_hidden", false)
     .order("updated_at", { ascending: false })
     .limit(8)

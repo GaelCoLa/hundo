@@ -121,7 +121,10 @@
     "noReviews": "No reviews yet. Rate this game and be the first to write one.",
     "showSpoilers": "Contains spoilers. Show review",
     "hoursShort": "{hours} h",
-    "finished": "finished {date}"
+    "finished": "finished {date}",
+    "sortReviews": "Sort reviews",
+    "sortHelpful": "Most helpful",
+    "sortRecent": "Most recent"
   },
   "rating": {
     "title": "Rate this game",
@@ -169,5 +172,11 @@
     "empty": "No games rated yet.",
     "emptyCategory": "No games in this category.",
     "memberSince": "Member since {date, date, ::MMMMyyyy}"
+  },
+  "community": {
+    "helpful": "Helpful",
+    "helpfulCount": "{count, plural, =0 {No one has marked this helpful yet} one {# person found this helpful} other {# people found this helpful}}",
+    "topReviewerLabel": "received 50 or more helpful votes from the community",
+    "signInToVote": "Sign in to vote"
   }
 }
