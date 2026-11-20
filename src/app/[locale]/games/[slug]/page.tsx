@@ -9,6 +9,8 @@ import { getGame } from "@/lib/games-server";
 import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { Cover } from "@/components/games/Cover";
+import { GameBackdrop } from "@/components/games/GameBackdrop";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { CommunityScoreCard } from "@/components/games/CommunityScoreCard";
 import { RatingForm, type ExistingRating } from "@/components/rating/RatingForm";
 import { ReviewList } from "@/components/rating/ReviewList";
@@ -17,7 +19,9 @@ type Params = PageProps<"/[locale]/games/[slug]">["params"];
 
 export default function GamePage({ params }: PageProps<"/[locale]/games/[slug]">) {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
+    // relative + isolate: el fondo difuminado (z-index negativo) queda detrás del
+    // contenido pero delante del fondo del sitio.
+    <main className="relative isolate mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
       <Suspense fallback={<div className="h-96 rounded-[28px] bg-surface" aria-busy="true" />}>
         <GameView params={params} />
       </Suspense>
@@ -33,9 +37,12 @@ async function GameView({ params }: { params: Params }) {
 
   return (
     <>
+      <GameBackdrop imageId={game.coverImageId} />
       <section className="grid items-start gap-10 lg:grid-cols-[1.15fr_1fr]">
         <div className="flex flex-col gap-6 sm:flex-row">
-          <Cover imageId={game.coverImageId} name={game.name} size="t_cover_big" priority className="w-40 shrink-0 sm:w-48" />
+          <TiltCard className="w-40 shrink-0 self-start sm:w-48">
+            <Cover imageId={game.coverImageId} name={game.name} size="t_cover_big" priority className="shadow-[0_24px_50px_-20px_rgba(0,0,0,0.9)]" />
+          </TiltCard>
           <div className="flex flex-col gap-3">
             <h1 className="font-display text-5xl font-black uppercase leading-[0.92] sm:text-6xl">{game.name}</h1>
             <p className="text-soft">{[game.releaseYear, ...game.genres.slice(0, 3)].filter(Boolean).join(", ")}</p>

@@ -15,7 +15,8 @@ import { AccountMenu } from "./AccountMenu";
 export async function SiteHeader() {
   const t = await getTranslations("nav");
   return (
-    <header className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-4 py-6 sm:px-8">
+    // relative z-10: la cabecera queda por delante de los fondos decorativos de las páginas.
+    <header className="relative z-10 mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-4 py-6 sm:px-8">
       <Link href="/" aria-label={t("home")} className="rounded-xl">
         <Logo />
       </Link>

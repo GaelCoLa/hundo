@@ -30,6 +30,9 @@
 
 html {
   color-scheme: dark;
+  /* Los fondos decorativos (manchas de luz, portada difuminada) pueden pasarse
+     del borde: se recortan en vez de agregar desplazamiento horizontal. */
+  overflow-x: clip;
 }
 
 body {
@@ -92,5 +95,50 @@ body {
       opacity: 0;
       transform: translateY(-6px) scale(0.97);
     }
+  }
+}
+
+/* Fondo de la ficha: aparece y se acerca muy despacio (efecto "Ken Burns"). */
+@theme {
+  --animate-backdrop-in: backdrop-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  @keyframes backdrop-in {
+    from {
+      opacity: 0;
+      transform: scale(1.4);
+    }
+  }
+}
+
+/*
+  Portada del sitio "viva":
+  - float: las portadas del collage suben y bajan despacio, cada una con su
+    propia rotación (--r) y su retraso, para que no se muevan todas juntas.
+  - drift: las manchas de luz del fondo se desplazan y cambian de tamaño muy lento.
+*/
+@theme {
+  --animate-float: float 6s ease-in-out infinite alternate;
+  --animate-drift: drift 18s ease-in-out infinite alternate;
+  @keyframes float {
+    from {
+      transform: rotate(var(--r, 0deg)) translateY(0);
+    }
+    to {
+      transform: rotate(var(--r, 0deg)) translateY(-16px);
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(60px, -40px) scale(1.2);
+    }
+  }
+}
+
+/* Sin animación, las portadas igual conservan su rotación. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float {
+    transform: rotate(var(--r, 0deg));
   }
 }

@@ -16,7 +16,12 @@ export async function CommunityScoreCard({ game }: { game: GameRow }) {
   const total = game.scoreDistribution.reduce((a, b) => a + b, 0);
 
   return (
-    <section aria-labelledby="community-score" className="flex flex-col gap-6 rounded-[28px] bg-surface p-6 sm:p-7">
+    <section
+      aria-labelledby="community-score"
+      // Semitransparente con desenfoque ("vidrio esmerilado"): toma el color del
+      // fondo difuminado de la portada que tiene detrás.
+      className="flex flex-col gap-6 rounded-[28px] bg-surface/60 p-6 ring-1 ring-white/10 backdrop-blur-xl sm:p-7"
+    >
       <h2 id="community-score" className="text-sm font-semibold text-muted">
         {t("communityScore")}
       </h2>
@@ -76,7 +81,7 @@ export async function CommunityScoreCard({ game }: { game: GameRow }) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-0.5 rounded-[14px] bg-bg px-3.5 py-3">
+    <div className="flex flex-col gap-0.5 rounded-[14px] bg-bg/50 px-3.5 py-3">
       <dt className="order-2 text-xs text-muted">{label}</dt>
       <dd className="order-1 font-display text-[28px] font-extrabold leading-none">{value}</dd>
     </div>

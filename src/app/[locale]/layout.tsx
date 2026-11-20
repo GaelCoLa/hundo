@@ -43,7 +43,7 @@ export default async function LocaleLayout({ children }: LayoutProps<"/[locale]"
       lang={lang}
       className={`${bigShoulders.variable} ${figtree.variable} ${unbounded.variable}`}
     >
-      <body className="min-h-dvh antialiased">
+      <body className="min-h-dvh overflow-x-clip antialiased">
         <NextIntlClientProvider>
           <MotionProvider>
             <SiteHeader />
