@@ -4,6 +4,7 @@
 import { refresh } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
+import { parseReportInput, type ReportInputError } from "@/lib/moderation";
 
 /** Marca o desmarca una reseña como "útil". */
 export async function toggleHelpful(ratingId: string, liked: boolean): Promise<{ ok: boolean }> {
@@ -36,4 +37,23 @@ export async function toggleFollow(followeeId: string, follow: boolean): Promise
   }
   refresh();
   return { ok: true };
+}
+
+export type ReportState = { sent?: boolean; error?: ReportInputError | "not_signed_in" | "unknown" };
+
+/** Reportar una reseña. Si ya la habías reportado, se toma como enviado. */
+export async function reportReview(ratingId: string, _prev: ReportState, formData: FormData): Promise<ReportState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "not_signed_in" };
+  const parsed = parseReportInput({ reason: String(formData.get("reason") ?? ""), details: String(formData.get("details") ?? "") });
+  if (!parsed.ok) return { error: parsed.error };
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("reports")
+    .insert({ reporter_id: user.id, rating_id: ratingId, reason: parsed.value.reason, details: parsed.value.details });
+  if (error && error.code !== "23505") {
+    console.error("reportReview failed", error.code, error.message);
+    return { error: "unknown" };
+  }
+  return { sent: true };
 }

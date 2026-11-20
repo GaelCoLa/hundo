@@ -10,6 +10,7 @@ import { Cover } from "@/components/games/Cover";
 import { Avatar } from "@/components/Avatar";
 import { HelpfulButton } from "./HelpfulButton";
 import { TopReviewerBadge } from "./TopReviewerBadge";
+import { ReportButton } from "./ReportButton";
 
 type Props = {
   review: ReviewData;
@@ -72,6 +73,12 @@ export async function ReviewCard({ review: r, viewerId, likedByViewer, path, sho
           </Link>
         )}
         {own || !viewerId ? <span>{tc("helpfulCount", { count: r.helpfulCount })}</span> : null}
+        {/* Reportar: solo con sesión y en reseñas ajenas. */}
+        {viewerId && !own ? (
+          <span className="ml-auto">
+            <ReportButton ratingId={r.id} />
+          </span>
+        ) : null}
       </footer>
     </article>
   );

@@ -14,7 +14,8 @@
     "home": "Hundo home",
     "accountMenu": "Account menu",
     "myProfile": "My profile",
-    "feed": "Following"
+    "feed": "Following",
+    "admin": "Moderation"
   },
   "home": {
     "title": "Every game you beat deserves a score.",
@@ -270,5 +271,39 @@
     "emptyMostReviewed": "No reviews yet.",
     "votes": "{count, plural, one {# valid vote} other {# valid votes}}",
     "reviewsCount": "{count, plural, one {# review} other {# reviews}}"
+  },
+  "report": {
+    "open": "Report",
+    "reasonLabel": "What's wrong with this review?",
+    "reasons": {
+      "spam": "Spam or advertising",
+      "offensive": "Offensive or abusive",
+      "spoilers": "Unmarked spoilers",
+      "other": "Something else"
+    },
+    "detailsLabel": "Details (optional)",
+    "send": "Send report",
+    "thanks": "Thanks. We'll take a look.",
+    "errors": {
+      "report_reason": "Choose a reason.",
+      "report_too_long": "Details can be up to 500 characters.",
+      "not_signed_in": "Your session expired. Sign in again.",
+      "unknown": "We couldn't send the report. Try again."
+    }
+  },
+  "admin": {
+    "title": "Moderation",
+    "pending": "{count, plural, =0 {No pending reports} one {# pending report} other {# pending reports}}",
+    "empty": "No pending reports. All quiet.",
+    "reportsCount": "{count} reports",
+    "reportedBy": "reported by @{user}",
+    "suspended": "suspended",
+    "on": "on",
+    "hidden": "hidden",
+    "hide": "Hide review",
+    "unhide": "Show review",
+    "suspend": "Suspend author",
+    "unsuspend": "Reinstate author",
+    "dismiss": "Dismiss report"
   }
 }

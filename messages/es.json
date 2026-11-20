@@ -14,7 +14,8 @@
     "home": "Inicio de Hundo",
     "accountMenu": "Menú de la cuenta",
     "myProfile": "Mi perfil",
-    "feed": "Siguiendo"
+    "feed": "Siguiendo",
+    "admin": "Moderación"
   },
   "home": {
     "title": "Cada juego que terminás merece una nota.",
@@ -270,5 +271,39 @@
     "emptyMostReviewed": "Todavía no hay reseñas.",
     "votes": "{count, plural, one {# voto válido} other {# votos válidos}}",
     "reviewsCount": "{count, plural, one {# reseña} other {# reseñas}}"
+  },
+  "report": {
+    "open": "Reportar",
+    "reasonLabel": "¿Qué pasa con esta reseña?",
+    "reasons": {
+      "spam": "Spam o publicidad",
+      "offensive": "Ofensiva o agresiva",
+      "spoilers": "Spoilers sin aviso",
+      "other": "Otro motivo"
+    },
+    "detailsLabel": "Detalle (opcional)",
+    "send": "Enviar reporte",
+    "thanks": "Gracias. Lo vamos a revisar.",
+    "errors": {
+      "report_reason": "Elegí un motivo.",
+      "report_too_long": "El detalle puede tener hasta 500 caracteres.",
+      "not_signed_in": "Tu sesión venció. Ingresá de nuevo.",
+      "unknown": "No pudimos enviar el reporte. Probá de nuevo."
+    }
+  },
+  "admin": {
+    "title": "Moderación",
+    "pending": "{count, plural, =0 {No hay reportes pendientes} one {# reporte pendiente} other {# reportes pendientes}}",
+    "empty": "No hay reportes pendientes. Todo tranquilo.",
+    "reportsCount": "{count} reportes",
+    "reportedBy": "reportada por @{user}",
+    "suspended": "suspendido",
+    "on": "en",
+    "hidden": "oculta",
+    "hide": "Ocultar reseña",
+    "unhide": "Mostrar reseña",
+    "suspend": "Suspender autor",
+    "unsuspend": "Reactivar autor",
+    "dismiss": "Descartar reporte"
   }
 }

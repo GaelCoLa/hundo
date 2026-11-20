@@ -69,6 +69,7 @@ async function AccountButton() {
       <Link href={`/u/${user.username}`} className="rounded-lg px-3 py-2.5 hover:bg-line">{t("myProfile")}</Link>
       <Link href="/feed" className="rounded-lg px-3 py-2.5 hover:bg-line">{t("feed")}</Link>
       <Link href="/settings" className="rounded-lg px-3 py-2.5 hover:bg-line">{t("settings")}</Link>
+      {user.isAdmin ? <Link href="/admin" className="rounded-lg px-3 py-2.5 text-accent hover:bg-line">{t("admin")}</Link> : null}
       <form action={logOut.bind(null, lang)}>
         <button type="submit" className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-line">
           {t("logOut")}
