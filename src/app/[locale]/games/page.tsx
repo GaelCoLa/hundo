@@ -1,12 +1,16 @@
-// Búsqueda de juegos: /games?q=texto
-// El título y el buscador se pre-generan; los resultados dependen de la URL,
-// así que van dentro de <Suspense> y se calculan en cada visita.
+// Juegos: /games?q=texto busca en IGDB; sin búsqueda, muestra Explorar
+// (mejor puntuados, por género con ?genre=, y más reseñados).
+// El título se pre-genera; lo que depende de la URL va dentro de <Suspense>.
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { searchGames } from "@/lib/igdb/client";
 import { GameCard } from "@/components/games/GameCard";
 import { SearchBox } from "@/components/games/SearchBox";
 import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
+import { RankedGameRow } from "@/components/games/RankedGameRow";
+import { Link } from "@/i18n/navigation";
+import { getGenres, getMostReviewed, getTopRated } from "@/lib/explore";
+import { pickGenre } from "@/lib/community";
 
 export default async function GamesPage({ searchParams }: PageProps<"/[locale]/games">) {
   const t = await getTranslations("search");
@@ -22,11 +26,12 @@ export default async function GamesPage({ searchParams }: PageProps<"/[locale]/g
 
 async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/games">["searchParams"] }) {
   const t = await getTranslations("search");
-  const raw = (await searchParams).q;
+  const params = await searchParams;
+  const raw = params.q;
   const q = (Array.isArray(raw) ? raw[0] : raw ?? "").trim();
 
   const body = await (async () => {
-    if (q === "") return <p className="text-soft">{t("hint")}</p>;
+    if (q === "") return <Explore genreParam={params.genre} />;
     if (q.length < 2) return <p className="text-soft">{t("tooShort")}</p>;
     const games = await searchGames(q);
     if (games.length === 0) return <p className="text-soft">{t("noResults", { q })}</p>;
@@ -61,6 +66,76 @@ function ResultsSkeleton() {
           <div key={i} className="aspect-[3/4] rounded-lg bg-surface" />
         ))}
       </div>
+    </div>
+  );
+}
+
+/** Explorar: rankings de la comunidad cuando no hay búsqueda. */
+async function Explore({ genreParam }: { genreParam: unknown }) {
+  const [t, genres] = await Promise.all([getTranslations("explore"), getGenres()]);
+  const genre = pickGenre(genreParam, genres.map((g) => g.genre));
+  const [topRated, mostReviewed] = await Promise.all([getTopRated(genre), getMostReviewed()]);
+  const chip = (active: boolean) =>
+    `rounded-full px-3 py-1.5 text-sm font-semibold ${active ? "bg-ink text-bg" : "bg-surface text-soft hover:text-ink"}`;
+
+  return (
+    <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+      <section aria-labelledby="top-rated" className="flex flex-col gap-4">
+        <h2 id="top-rated" className="font-display text-4xl font-black uppercase">
+          {t("topRated")}
+        </h2>
+        {genres.length > 0 ? (
+          <nav aria-label={t("byGenre")} className="flex flex-wrap gap-2">
+            <Link href="/games" scroll={false} aria-current={genre === null ? "true" : undefined} className={chip(genre === null)}>
+              {t("allGenres")}
+            </Link>
+            {genres.map((g) => (
+              <Link
+                key={g.genre}
+                href={`/games?${new URLSearchParams({ genre: g.genre })}`}
+                scroll={false}
+                aria-current={genre === g.genre ? "true" : undefined}
+                className={chip(genre === g.genre)}
+              >
+                {g.genre}
+              </Link>
+            ))}
+          </nav>
+        ) : null}
+        {topRated.length === 0 ? (
+          <p className="text-soft">
+            {t("emptyTopRated")}{" "}
+            <Link href="/how-scores-work" className="font-semibold text-accent underline underline-offset-4">
+              {t("why")}
+            </Link>
+          </p>
+        ) : (
+          <StaggerList key={genre ?? "all"} className="flex flex-col gap-2">
+            {topRated.map((g, i) => (
+              <StaggerItem key={g.id}>
+                <RankedGameRow game={g} position={i + 1} />
+              </StaggerItem>
+            ))}
+          </StaggerList>
+        )}
+      </section>
+
+      <section aria-labelledby="most-reviewed" className="flex flex-col gap-4">
+        <h2 id="most-reviewed" className="font-display text-4xl font-black uppercase">
+          {t("mostReviewed")}
+        </h2>
+        {mostReviewed.length === 0 ? (
+          <p className="text-soft">{t("emptyMostReviewed")}</p>
+        ) : (
+          <StaggerList className="flex flex-col gap-2">
+            {mostReviewed.map((g, i) => (
+              <StaggerItem key={g.id}>
+                <RankedGameRow game={g} position={i + 1} metric="reviews" />
+              </StaggerItem>
+            ))}
+          </StaggerList>
+        )}
+      </section>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { escapeLike, isTopReviewer, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
+import { escapeLike, isTopReviewer, pickGenre, parseBefore, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
 
 describe("isTopReviewer", () => {
   test("hacen falta 50 'útil' recibidos (spec §5.3)", () => {
@@ -51,5 +51,16 @@ describe("escapeLike", () => {
     expect(escapeLike("a_b")).toBe(String.raw`a\_b`);
     expect(escapeLike(String.raw`x\y`)).toBe(String.raw`x\\y`);
     expect(escapeLike(String.raw`%_\ `.trim())).toBe(String.raw`\%\_\\`);
+  });
+});
+
+describe("pickGenre", () => {
+  const available = ["Shooter", "Role-playing (RPG)"];
+  test("solo acepta géneros que existen en el ranking", () => {
+    expect(pickGenre("Shooter", available)).toBe("Shooter");
+    expect(pickGenre("Role-playing (RPG)", available)).toBe("Role-playing (RPG)");
+    expect(pickGenre("Puzzle", available)).toBeNull();
+    expect(pickGenre(undefined, available)).toBeNull();
+    expect(pickGenre(["Shooter"], available)).toBeNull();
   });
 });

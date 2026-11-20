@@ -125,7 +125,8 @@
     "finished": "terminado en {date}",
     "sortReviews": "Ordenar reseñas",
     "sortHelpful": "Más útiles",
-    "sortRecent": "Recientes"
+    "sortRecent": "Recientes",
+    "genreRank": "#{position} de {total} en {genre}"
   },
   "rating": {
     "title": "Calificá este juego",
@@ -219,5 +220,16 @@
     "emptyHelpful": "Todavía nadie recibió votos de útil.",
     "emptyActive": "Todavía nadie calificó juegos.",
     "stats": "{ratings, plural, one {# calificación} other {# calificaciones}} · {helpful} útil"
+  },
+  "explore": {
+    "topRated": "Mejor puntuados",
+    "byGenre": "Filtrar por género",
+    "allGenres": "Todos",
+    "emptyTopRated": "Todavía ningún juego llegó a 5 calificaciones válidas, el mínimo para tener nota de la comunidad.",
+    "why": "¿Por qué?",
+    "mostReviewed": "Más reseñados",
+    "emptyMostReviewed": "Todavía no hay reseñas.",
+    "votes": "{count, plural, one {# voto válido} other {# votos válidos}}",
+    "reviewsCount": "{count, plural, one {# reseña} other {# reseñas}}"
   }
 }

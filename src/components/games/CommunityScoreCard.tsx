@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { ScoreRing } from "@/components/ScoreRing";
 import { getScaleCategory, SCALE } from "@/lib/scale";
 import type { GameRow } from "@/lib/games";
+import { getGenreRank } from "@/lib/explore";
 import { Reveal } from "@/components/motion/Reveal";
 
 const MIN_VOTES = 5;
@@ -14,6 +15,8 @@ export async function CommunityScoreCard({ game }: { game: GameRow }) {
   const t = await getTranslations("game");
   const ts = await getTranslations("scale");
   const total = game.scoreDistribution.reduce((a, b) => a + b, 0);
+  // Puesto dentro de su primer género (solo si el juego ya tiene nota).
+  const rank = game.communityScore !== null ? await getGenreRank(game.id) : null;
 
   return (
     <section
@@ -37,6 +40,9 @@ export async function CommunityScoreCard({ game }: { game: GameRow }) {
               {ts(getScaleCategory(game.communityScore).key)}
             </span>
             <span className="text-sm text-soft">{t("fromPlayers", { count: game.validRatingsCount })}</span>
+            {rank ? (
+              <span className="text-sm font-semibold text-ink">{t("genreRank", { position: rank.position, total: rank.total, genre: rank.genre })}</span>
+            ) : null}
           </div>
         </div>
       ) : (

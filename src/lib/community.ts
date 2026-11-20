@@ -40,6 +40,11 @@ export function parseBefore(v: unknown): string | null {
  * devolvería a todos los usuarios. Primero se duplica la barra invertida (que
  * es el carácter de escape) y después se escapan los comodines.
  */
+/** Género de la URL (?genre=) solo si existe en el ranking; si no, null (todos). */
+export function pickGenre(v: unknown, available: readonly string[]): string | null {
+  return typeof v === "string" && available.includes(v) ? v : null;
+}
+
 export function escapeLike(term: string): string {
   return term.replace(/\\/g, "\\\\").replace(/[%_]/g, (c) => `\\${c}`);
 }

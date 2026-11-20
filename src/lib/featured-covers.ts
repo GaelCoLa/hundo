@@ -5,18 +5,14 @@
 // hora, y la portada del sitio puede seguir pre-generándose.
 import "server-only";
 import { cacheLife } from "next/cache";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/public-db";
 
 export type FeaturedCover = { slug: string; name: string; coverImageId: string };
 
 export async function getFeaturedCovers(limit = 5): Promise<FeaturedCover[]> {
   "use cache";
   cacheLife("hours");
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { auth: { persistSession: false } },
-  );
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("games")
     .select("slug, name, cover_image_id")

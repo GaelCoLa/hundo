@@ -125,7 +125,8 @@
     "finished": "finished {date}",
     "sortReviews": "Sort reviews",
     "sortHelpful": "Most helpful",
-    "sortRecent": "Most recent"
+    "sortRecent": "Most recent",
+    "genreRank": "#{position} of {total} in {genre}"
   },
   "rating": {
     "title": "Rate this game",
@@ -219,5 +220,16 @@
     "emptyHelpful": "No one has received helpful votes yet.",
     "emptyActive": "No one has rated any games yet.",
     "stats": "{ratings, plural, one {# rating} other {# ratings}} · {helpful} helpful"
+  },
+  "explore": {
+    "topRated": "Top rated",
+    "byGenre": "Filter by genre",
+    "allGenres": "All",
+    "emptyTopRated": "No game has reached 5 valid ratings yet, the minimum for a community score.",
+    "why": "Why?",
+    "mostReviewed": "Most reviewed",
+    "emptyMostReviewed": "No reviews yet.",
+    "votes": "{count, plural, one {# valid vote} other {# valid votes}}",
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}"
   }
 }
