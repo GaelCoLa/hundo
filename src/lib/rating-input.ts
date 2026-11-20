@@ -22,6 +22,22 @@ export type RatingInputError = "score_range" | "review_too_long" | "hours_invali
 
 export type RatingParseResult = { ok: true; value: RatingInput } | { ok: false; error: RatingInputError };
 
+/** Lee los campos del formulario como texto, sin validar. */
+export function readRatingForm(formData: FormData): RatingForm {
+  const text = (name: string) => {
+    const v = formData.get(name);
+    return typeof v === "string" ? v : "";
+  };
+  const spoilers = formData.get("hasSpoilers");
+  return {
+    score: text("score"),
+    review: text("review"),
+    hasSpoilers: typeof spoilers === "string" ? spoilers : null,
+    hours: text("hours"),
+    finishedOn: text("finishedOn"),
+  };
+}
+
 const MAX_REVIEW = 5000;
 const MAX_HOURS = 9999.9;
 

@@ -136,6 +136,8 @@
     "update": "Actualizar calificación",
     "delete": "Borrar calificación",
     "saved": "Calificación guardada.",
+    "deleted": "Calificación borrada.",
+    "confirmDelete": "¿Borrar tu calificación y tu reseña? No se puede deshacer.",
     "signInToRate": "Ingresá para calificar este juego y escribir una reseña.",
     "signInCta": "Ingresar para calificar",
     "errors": {

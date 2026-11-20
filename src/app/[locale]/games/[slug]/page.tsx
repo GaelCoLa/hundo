@@ -95,6 +95,7 @@ async function YourRating({ gameId, slug }: { gameId: number; slug: string }) {
       }
     : null;
 
-  // La key fuerza a re-crear el formulario cuando cambia la calificación guardada.
-  return <RatingForm key={JSON.stringify(existing)} gameId={gameId} existing={existing} />;
+  // Sin key: re-crear el formulario borraría el mensaje "Guardado". Al terminar
+  // de guardar, React vuelve los campos a sus valores iniciales, que ya son los nuevos.
+  return <RatingForm gameId={gameId} existing={existing} />;
 }

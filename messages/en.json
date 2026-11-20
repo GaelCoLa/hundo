@@ -136,6 +136,8 @@
     "update": "Update rating",
     "delete": "Delete rating",
     "saved": "Rating saved.",
+    "deleted": "Rating deleted.",
+    "confirmDelete": "Delete your rating and review? This can't be undone.",
     "signInToRate": "Sign in to rate this game and write a review.",
     "signInCta": "Sign in to rate",
     "errors": {
