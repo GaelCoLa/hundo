@@ -122,13 +122,19 @@
       "unknown": "We couldn't save your changes. Try again in a moment.",
       "favorites_too_many": "You can pick up to 5 games.",
       "favorites_duplicate": "You picked the same game twice.",
-      "favorites_not_rated": "You can only pick games you rated."
+      "favorites_not_rated": "You can only pick games you rated.",
+      "confirm_mismatch": "The username doesn't match."
     },
     "favoritesTitle": "Top 5 favorites",
     "favoritesHint": "Pick your 5 favorite games from the ones you rated. They show on your profile in this order.",
     "favoritesEmpty": "Rate a game to be able to pick your favorites.",
     "favoritePosition": "Favorite number {pos}",
-    "favoritesSaved": "Top 5 saved."
+    "favoritesSaved": "Top 5 saved.",
+    "dangerTitle": "Danger zone",
+    "deleteExplain": "Deleting your account removes your profile, all your ratings and reviews, your helpful votes, who you follow and your Top 5. This can't be undone.",
+    "deleteConfirmLabel": "Type your username ({username}) to confirm",
+    "deleteButton": "Delete my account",
+    "deleting": "Deleting…"
   },
   "search": {
     "title": "Games",

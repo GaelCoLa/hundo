@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { avatarPublicUrl, parseProfileInput, validateAvatar, validateFavorites } from "@/lib/profile-input";
+import { avatarPublicUrl, confirmMatches, parseProfileInput, validateAvatar, validateFavorites } from "@/lib/profile-input";
 
 const MB = 1024 * 1024;
 const UUID = "0b5d6f2a-1c3e-4a7b-9d8e-123456789abc";
@@ -53,5 +53,13 @@ describe("validateFavorites", () => {
     expect(validateFavorites([1, 1], rated)).toEqual({ ok: false, error: "favorites_duplicate" });
     expect(validateFavorites([1, 2, 3, 4, 5, 6], rated)).toEqual({ ok: false, error: "favorites_too_many" });
     expect(validateFavorites([9], new Set([1]))).toEqual({ ok: false, error: "favorites_not_rated" });
+  });
+});
+
+describe("confirmMatches", () => {
+  test("hay que escribir el nombre de usuario exacto (sin importar mayúsculas ni espacios)", () => {
+    expect(confirmMatches(" GaelCola ", "gaelcola")).toBe(true);
+    expect(confirmMatches("gaelcol", "gaelcola")).toBe(false);
+    expect(confirmMatches("", "gaelcola")).toBe(false);
   });
 });

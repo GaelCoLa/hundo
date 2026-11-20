@@ -3,9 +3,12 @@
 // Usan el cliente con la sesión del usuario: las reglas RLS y de Storage de la
 // base garantizan que cada uno solo toca lo suyo.
 import { refresh } from "next/cache";
+import { redirect } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { parseProfileInput, validateAvatar, validateFavorites, type AvatarError, type FavoritesError, type ProfileInputError } from "@/lib/profile-input";
+import { confirmMatches, parseProfileInput, validateAvatar, validateFavorites, type AvatarError, type FavoritesError, type ProfileInputError } from "@/lib/profile-input";
 
 export type ProfileState = { error?: ProfileInputError | "not_signed_in" | "unknown"; saved?: boolean };
 export type AvatarState = { error?: AvatarError | "not_signed_in" | "unknown"; saved?: boolean };
@@ -101,4 +104,32 @@ export async function updateFavorites(_prev: FavoritesState, formData: FormData)
   }
   refresh();
   return { saved: true };
+}
+
+export type DeleteState = { error?: "confirm_mismatch" | "not_signed_in" | "unknown" };
+
+/**
+ * Borra la cuenta. La cuenta de Auth se borra con el cliente de clave secreta
+ * (un usuario no puede borrarse a sí mismo de Auth); las claves foráneas con
+ * "on delete cascade" borran perfil, calificaciones, likes, seguimientos,
+ * favoritos y reportes, y los triggers descuentan los contadores de los demás.
+ */
+export async function deleteAccount(lang: string, _prev: DeleteState, formData: FormData): Promise<DeleteState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "not_signed_in" };
+  if (!confirmMatches(String(formData.get("confirm") ?? ""), user.username)) return { error: "confirm_mismatch" };
+
+  const supabase = await createClient();
+  // Fotos de perfil (la carpeta del usuario). Si falla, solo quedan archivos huérfanos.
+  const { data: files } = await supabase.storage.from("avatars").list(user.id);
+  if (files && files.length > 0) await supabase.storage.from("avatars").remove(files.map((f) => `${user.id}/${f.name}`));
+
+  const { error } = await createAdminClient().auth.admin.deleteUser(user.id);
+  if (error) {
+    console.error("deleteAccount failed", error.message);
+    return { error: "unknown" };
+  }
+  await supabase.auth.signOut();
+  const locale = (routing.locales as readonly string[]).includes(lang) ? lang : routing.defaultLocale;
+  redirect(`/${locale}`);
 }

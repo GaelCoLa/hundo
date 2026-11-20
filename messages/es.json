@@ -122,13 +122,19 @@
       "unknown": "No pudimos guardar los cambios. Probá de nuevo en un momento.",
       "favorites_too_many": "Podés elegir hasta 5 juegos.",
       "favorites_duplicate": "Elegiste el mismo juego dos veces.",
-      "favorites_not_rated": "Solo podés elegir juegos que calificaste."
+      "favorites_not_rated": "Solo podés elegir juegos que calificaste.",
+      "confirm_mismatch": "El nombre de usuario no coincide."
     },
     "favoritesTitle": "Top 5 favoritos",
     "favoritesHint": "Elegí tus 5 juegos favoritos entre los que calificaste. Se muestran en tu perfil en este orden.",
     "favoritesEmpty": "Calificá algún juego para poder elegir tus favoritos.",
     "favoritePosition": "Favorito número {pos}",
-    "favoritesSaved": "Top 5 guardado."
+    "favoritesSaved": "Top 5 guardado.",
+    "dangerTitle": "Zona peligrosa",
+    "deleteExplain": "Borrar tu cuenta elimina tu perfil, todas tus calificaciones y reseñas, tus votos de útil, a quién seguís y tu Top 5. No se puede deshacer.",
+    "deleteConfirmLabel": "Escribí tu nombre de usuario ({username}) para confirmar",
+    "deleteButton": "Borrar mi cuenta",
+    "deleting": "Borrando…"
   },
   "search": {
     "title": "Juegos",

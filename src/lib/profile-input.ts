@@ -61,3 +61,8 @@ export function validateFavorites(gameIds: number[], rated: ReadonlySet<number>)
   if (picked.some((id) => !rated.has(id))) return { ok: false, error: "favorites_not_rated" };
   return { ok: true, value: picked };
 }
+
+/** Confirmación para borrar la cuenta: escribir el propio nombre de usuario. */
+export function confirmMatches(typed: string, username: string): boolean {
+  return typed.trim().toLowerCase() === username.toLowerCase() && username !== "";
+}

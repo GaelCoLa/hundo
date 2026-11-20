@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Avatar } from "@/components/Avatar";
 import { ProfileForm } from "@/components/settings/ProfileForm";
 import { FavoritesForm } from "@/components/settings/FavoritesForm";
+import { DeleteAccount } from "@/components/settings/DeleteAccount";
 
 export default async function SettingsPage() {
   const t = await getTranslations("settings");
@@ -58,6 +59,7 @@ async function AccountDetails() {
         bio={profile?.bio ?? null}
       />
       <FavoritesForm options={options} current={(favorites ?? []).map((f) => f.game_id as number)} />
+      <DeleteAccount username={user.username} lang={lang} />
     </>
   );
 }
