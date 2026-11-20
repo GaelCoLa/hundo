@@ -15,3 +15,10 @@ export type ReviewSort = "helpful" | "recent";
 export function parseReviewSort(v: unknown): ReviewSort {
   return v === "recent" ? "recent" : "helpful";
 }
+
+/** Número de página de la URL (?page=): entero de 1 a 500; cualquier otra cosa → 1. */
+export function parsePage(v: unknown): number {
+  if (typeof v !== "string" || !/^\d+$/.test(v)) return 1;
+  const n = Number(v);
+  return n < 1 ? 1 : Math.min(n, 500);
+}

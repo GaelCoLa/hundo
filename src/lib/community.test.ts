@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isTopReviewer, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
+import { isTopReviewer, parsePage, parseReviewSort, TOP_REVIEWER_MIN } from "@/lib/community";
 
 describe("isTopReviewer", () => {
   test("hacen falta 50 'útil' recibidos (spec §5.3)", () => {
@@ -17,5 +17,17 @@ describe("parseReviewSort", () => {
     expect(parseReviewSort(undefined)).toBe("helpful");
     expect(parseReviewSort(["recent"])).toBe("helpful");
     expect(parseReviewSort("x")).toBe("helpful");
+  });
+});
+
+describe("parsePage", () => {
+  test("número de página válido, entre 1 y 500", () => {
+    expect(parsePage("3")).toBe(3);
+    expect(parsePage("0")).toBe(1);
+    expect(parsePage("-2")).toBe(1);
+    expect(parsePage("abc")).toBe(1);
+    expect(parsePage("2.5")).toBe(1);
+    expect(parsePage(undefined)).toBe(1);
+    expect(parsePage("9999")).toBe(500);
   });
 });

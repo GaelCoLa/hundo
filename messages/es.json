@@ -178,5 +178,18 @@
     "helpfulCount": "{count, plural, =0 {Nadie la marcó como útil todavía} one {A # persona le resultó útil} other {A # personas les resultó útil}}",
     "topReviewerLabel": "recibió 50 o más votos de útil de la comunidad",
     "signInToVote": "Ingresá para votar"
+  },
+  "reviewsPage": {
+    "title": "Reseñas",
+    "subtitle": "Lo que opina la comunidad. Las más votadas como útiles, primero.",
+    "sortLabel": "Ordenar reseñas",
+    "helpful": "Más útiles",
+    "recent": "Recientes",
+    "empty": "Todavía no hay reseñas.",
+    "noMore": "No hay más reseñas.",
+    "findGame": "Buscá un juego y escribí la primera",
+    "pagination": "Páginas",
+    "previous": "Anterior",
+    "next": "Siguiente"
   }
 }
