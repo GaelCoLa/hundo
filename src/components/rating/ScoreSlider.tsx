@@ -3,6 +3,7 @@
 // su categoría ("92 · Excelente") y su equivalente sobre 10.
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { AnimatePresence, motion } from "motion/react";
 import { getScaleCategory, toTen } from "@/lib/scale";
 
 export function ScoreSlider({ defaultValue = 75 }: { defaultValue?: number }) {
@@ -21,11 +22,33 @@ export function ScoreSlider({ defaultValue = 75 }: { defaultValue?: number }) {
         <span className="text-sm text-muted">{t("outOfTen", { value: toTen(score) })}</span>
       </div>
       <div className="flex items-baseline gap-3" aria-hidden="true">
-        <span className="font-display text-[84px] font-black leading-[0.9]" style={{ color: category.color }}>
+        {/* El color cambia con una transición suave (CSS). Al pasar a otra
+            categoría, la key cambia y Motion hace "saltar" el número. */}
+        <motion.span
+          key={category.key}
+          initial={{ scale: 1.18 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 500, damping: 18 }}
+          className="inline-block origin-bottom-left font-display text-[84px] font-black leading-[0.9] transition-colors duration-300"
+          style={{ color: category.color }}
+        >
           {score}
-        </span>
-        <span className="font-display text-3xl font-extrabold" style={{ color: category.color }}>
-          {label}
+        </motion.span>
+        {/* El nombre de la categoría entra desde abajo y el anterior sale hacia arriba. */}
+        <span className="relative inline-flex overflow-hidden">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={category.key}
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "-100%", opacity: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="font-display text-3xl font-extrabold"
+              style={{ color: category.color }}
+            >
+              {label}
+            </motion.span>
+          </AnimatePresence>
         </span>
       </div>
       <input

@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getScaleCategory } from "@/lib/scale";
 import { Cover } from "@/components/games/Cover";
+import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
 
 type RecentRow = {
   id: string;
@@ -35,15 +36,15 @@ export async function RecentRatings() {
       <h2 id="recent" className="font-display text-4xl font-black uppercase">
         {t("recentTitle")}
       </h2>
-      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <StaggerList className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {items.map((r) => {
           const category = getScaleCategory(r.score);
           return (
-            <li key={r.id} className="flex flex-col gap-2">
+            <StaggerItem key={r.id} className="flex flex-col gap-2">
               <Link href={`/games/${r.games!.slug}`} className="group relative block rounded-xl">
-                <Cover imageId={r.games!.cover_image_id} name={r.games!.name} size="t_cover_big" className="transition group-hover:ring-2 group-hover:ring-accent" />
+                <Cover imageId={r.games!.cover_image_id} name={r.games!.name} size="t_cover_big" className="transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.8)] group-hover:ring-2 group-hover:ring-accent" />
                 <span
-                  className="absolute bottom-2 right-2 rounded-lg bg-bg/90 px-2 py-1 font-display text-2xl font-black leading-none"
+                  className="absolute bottom-2 right-2 rounded-lg bg-bg/90 px-2 py-1 font-display text-2xl font-black leading-none transition duration-300 group-hover:-translate-y-1"
                   style={{ color: category.color }}
                   aria-label={ts("ringLabel", { score: r.score, category: ts(category.key) })}
                 >
@@ -58,10 +59,10 @@ export async function RecentRatings() {
                   @{r.profiles!.username}
                 </Link>
               </span>
-            </li>
+            </StaggerItem>
           );
         })}
-      </ul>
+      </StaggerList>
     </section>
   );
 }

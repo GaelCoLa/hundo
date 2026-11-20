@@ -69,7 +69,7 @@ async function YourRating({ gameId, slug }: { gameId: number; slug: string }) {
         <p className="text-soft">{t("signInToRate")}</p>
         <Link
           href={`/login?next=${encodeURIComponent(`/games/${slug}`)}`}
-          className="flex h-12 items-center rounded-xl bg-accent px-6 font-bold text-accent-ink"
+          className="flex h-12 items-center rounded-xl bg-accent px-6 font-bold text-accent-ink btn-pop"
         >
           {t("signInCta")}
         </Link>

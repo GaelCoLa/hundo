@@ -28,7 +28,7 @@ export function AccountMenu({ summary, label, children }: { summary: ReactNode; 
       >
         {summary}
       </summary>
-      <div className="absolute right-0 z-10 mt-2 flex w-48 flex-col rounded-xl border border-line bg-surface p-1.5 shadow-lg">
+      <div className="absolute right-0 z-10 mt-2 flex w-48 origin-top-right animate-menu-in flex-col rounded-xl border border-line bg-surface p-1.5 shadow-lg">
         {children}
       </div>
     </details>

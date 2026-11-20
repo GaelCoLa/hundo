@@ -2,6 +2,7 @@
 import { getTranslations } from "next-intl/server";
 import { SCALE } from "@/lib/scale";
 import type { ProfileStats } from "@/lib/profile-stats";
+import { GrowBar } from "@/components/motion/GrowBar";
 
 export async function StatsPanel({ stats }: { stats: ProfileStats }) {
   const [t, ts] = await Promise.all([getTranslations("profile"), getTranslations("scale")]);
@@ -26,13 +27,13 @@ export async function StatsPanel({ stats }: { stats: ProfileStats }) {
       <div className="flex flex-col gap-3">
         <h3 className="text-sm font-semibold text-muted">{t("byCategory")}</h3>
         <ul className="flex flex-col gap-2">
-          {[...SCALE].reverse().map((c) => {
+          {[...SCALE].reverse().map((c, i) => {
             const n = stats.byCategory[c.key];
             return (
               <li key={c.key} className="grid grid-cols-[7.5rem_1fr_2rem] items-center gap-3 text-sm">
                 <span className="font-semibold">{ts(c.key)}</span>
                 <span aria-hidden="true" className="h-3 overflow-hidden rounded-full bg-bg">
-                  <span className="block h-full rounded-full" style={{ width: `${(n / max) * 100}%`, background: c.color }} />
+                  <GrowBar percent={(n / max) * 100} color={c.color} index={i} />
                 </span>
                 <span className="text-right tabular-nums text-soft">{n}</span>
               </li>

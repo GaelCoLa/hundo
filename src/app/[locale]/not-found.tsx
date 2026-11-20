@@ -10,10 +10,10 @@ export default function NotFound() {
       <h1 className="font-display text-6xl font-black uppercase leading-[0.9]">{t("title")}</h1>
       <p className="text-lg text-soft">{t("body")}</p>
       <div className="flex flex-wrap gap-3">
-        <Link href="/games" className="flex h-12 items-center rounded-xl bg-accent px-6 font-bold text-accent-ink">
+        <Link href="/games" className="flex h-12 items-center rounded-xl bg-accent px-6 font-bold text-accent-ink btn-pop">
           {t("search")}
         </Link>
-        <Link href="/" className="flex h-12 items-center rounded-xl border-2 border-line px-6 font-semibold">
+        <Link href="/" className="flex h-12 items-center rounded-xl border-2 border-line px-6 font-semibold btn-pop btn-pop-ghost">
           {t("back")}
         </Link>
       </div>

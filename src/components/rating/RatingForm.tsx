@@ -3,6 +3,7 @@
 // con tus datos y guardar actualiza la misma calificación.
 import { useActionState } from "react";
 import { useTranslations } from "next-intl";
+import { motion } from "motion/react";
 import { submitRating, type RatingState } from "@/app/[locale]/games/[slug]/actions";
 import { FormError } from "@/components/auth/AuthFields";
 import { ScoreSlider } from "./ScoreSlider";
@@ -28,9 +29,16 @@ export function RatingForm({ gameId, existing }: { gameId: number; existing: Exi
       <h2 className="text-lg font-semibold">{existing ? t("editTitle") : t("title")}</h2>
       {state.error ? <FormError>{t(`errors.${state.error}`)}</FormError> : null}
       {(state.saved || state.deleted) && !pending ? (
-        <p role="status" className="text-sm font-semibold text-scale-great">
+        <motion.p
+          role="status"
+          initial={{ opacity: 0, y: -6, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 420, damping: 26 }}
+          className="flex items-center gap-2 text-sm font-semibold text-scale-great"
+        >
+          <span aria-hidden="true">✓</span>
           {t(state.saved ? "saved" : "deleted")}
-        </p>
+        </motion.p>
       ) : null}
 
       <ScoreSlider defaultValue={existing?.score ?? 75} />
@@ -68,7 +76,7 @@ export function RatingForm({ gameId, existing }: { gameId: number; existing: Exi
           type="submit"
           disabled={pending}
           aria-busy={pending}
-          className="h-12 rounded-xl bg-accent px-6 font-bold text-accent-ink disabled:opacity-60"
+          className="h-12 rounded-xl bg-accent px-6 font-bold text-accent-ink btn-pop disabled:opacity-60"
         >
           {existing ? t("update") : t("save")}
         </button>
@@ -82,7 +90,7 @@ export function RatingForm({ gameId, existing }: { gameId: number; existing: Exi
               // Borrar no se puede deshacer: pedimos confirmación antes.
               if (!window.confirm(t("confirmDelete"))) e.preventDefault();
             }}
-            className="h-12 rounded-xl border-2 border-line px-5 font-semibold text-soft hover:text-ink"
+            className="h-12 rounded-xl border-2 border-line px-5 font-semibold text-soft hover:text-ink btn-pop btn-pop-ghost"
           >
             {t("delete")}
           </button>

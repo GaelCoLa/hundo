@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { searchGames } from "@/lib/igdb/client";
 import { GameCard } from "@/components/games/GameCard";
 import { SearchBox } from "@/components/games/SearchBox";
+import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
 
 export default async function GamesPage({ searchParams }: PageProps<"/[locale]/games">) {
   const t = await getTranslations("search");
@@ -32,13 +33,13 @@ async function Results({ searchParams }: { searchParams: PageProps<"/[locale]/ga
     return (
       <>
         <p className="text-sm text-muted">{t("resultsFor", { q, count: games.length })}</p>
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
+        <StaggerList className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-5">
           {games.map((g) => (
-            <li key={g.id}>
+            <StaggerItem key={g.id}>
               <GameCard game={g} />
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </StaggerList>
       </>
     );
   })();

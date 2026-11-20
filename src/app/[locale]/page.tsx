@@ -7,6 +7,7 @@ import { ScoreRing } from "@/components/ScoreRing";
 import { ScaleBar } from "@/components/ScaleBar";
 import { SCALE } from "@/lib/scale";
 import { RecentRatings } from "@/components/home/RecentRatings";
+import { Reveal } from "@/components/motion/Reveal";
 
 // Distribución de ejemplo (porcentaje de jugadores por categoría) para la tarjeta.
 const EXAMPLE_DISTRIBUTION = [2, 2, 3, 6, 9, 22, 56];
@@ -24,10 +25,10 @@ export default function HomePage() {
           </h1>
           <p className="max-w-[480px] text-lg leading-relaxed text-soft sm:text-[19px]">{t("subtitle")}</p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/games" className="flex h-[52px] items-center rounded-xl bg-accent px-6 font-bold text-accent-ink">
+            <Link href="/games" className="flex h-[52px] items-center rounded-xl bg-accent px-6 font-bold text-accent-ink btn-pop">
               {t("rate")}
             </Link>
-            <Link href="/games" className="flex h-[52px] items-center rounded-xl border-2 border-line px-6 font-semibold">
+            <Link href="/games" className="flex h-[52px] items-center rounded-xl border-2 border-line px-6 font-semibold btn-pop btn-pop-ghost">
               {t("browse")}
             </Link>
           </div>
@@ -51,11 +52,13 @@ export default function HomePage() {
               <span className="text-sm text-[#e9b9b3]">{t("communityScoreFrom", { count: "1,284" })}</span>
             </div>
           </div>
-          <div aria-hidden="true" className="flex h-3 gap-[3px] overflow-hidden rounded-full">
-            {SCALE.map((c, i) => (
-              <div key={c.key} style={{ flex: EXAMPLE_DISTRIBUTION[i], background: c.color }} />
-            ))}
-          </div>
+          <Reveal className="flex h-3 gap-[3px] overflow-hidden rounded-full" delay={0.4}>
+            <div aria-hidden="true" className="contents">
+              {SCALE.map((c, i) => (
+                <div key={c.key} style={{ flex: EXAMPLE_DISTRIBUTION[i], background: c.color }} />
+              ))}
+            </div>
+          </Reveal>
         </article>
       </section>
 

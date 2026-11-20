@@ -4,6 +4,7 @@
 import { getFormatter, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Cover } from "@/components/games/Cover";
+import { StaggerItem, StaggerList } from "@/components/motion/Stagger";
 import { getScaleCategory, SCALE, type ScaleKey } from "@/lib/scale";
 import type { LibraryItem, LibrarySort } from "@/lib/profile-stats";
 
@@ -48,12 +49,12 @@ export async function Library({ username, items, sort, cat }: Props) {
       {items.length === 0 ? (
         <p className="text-soft">{cat ? t("emptyCategory") : t("empty")}</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <StaggerList className="flex flex-col gap-2">
           {items.map((item) => {
             const category = getScaleCategory(item.score);
             return (
-              <li key={item.slug}>
-                <Link href={`/games/${item.slug}`} className="flex items-center gap-4 rounded-[14px] bg-surface p-3 hover:ring-2 hover:ring-line">
+              <StaggerItem key={item.slug}>
+                <Link href={`/games/${item.slug}`} className="flex items-center gap-4 rounded-[14px] bg-surface p-3 transition duration-200 hover:translate-x-1 hover:ring-2 hover:ring-line">
                   <Cover imageId={item.coverImageId} name={item.name} size="t_cover_small" className="w-12 shrink-0" />
                   <span className="flex grow flex-col">
                     <span className="font-semibold leading-tight">{item.name}</span>
@@ -73,10 +74,10 @@ export async function Library({ username, items, sort, cat }: Props) {
                     <span className="text-xs text-muted">{ts(category.key)}</span>
                   </span>
                 </Link>
-              </li>
+              </StaggerItem>
             );
           })}
-        </ul>
+        </StaggerList>
       )}
     </section>
   );

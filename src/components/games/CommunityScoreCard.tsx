@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { ScoreRing } from "@/components/ScoreRing";
 import { getScaleCategory, SCALE } from "@/lib/scale";
 import type { GameRow } from "@/lib/games";
+import { Reveal } from "@/components/motion/Reveal";
 
 const MIN_VOTES = 5;
 
@@ -48,13 +49,13 @@ export async function CommunityScoreCard({ game }: { game: GameRow }) {
       {total > 0 ? (
         <div className="flex flex-col gap-2">
           <span className="text-sm text-muted">{t("howRated")}</span>
-          <div className="flex h-3 gap-[3px] overflow-hidden rounded-full bg-line">
+          <Reveal className="flex h-3 gap-[3px] overflow-hidden rounded-full bg-line" delay={0.3}>
             {SCALE.map((c, i) =>
               game.scoreDistribution[i] ? (
                 <div key={c.key} style={{ flex: game.scoreDistribution[i], background: c.color }} title={`${ts(c.key)}: ${game.scoreDistribution[i]}`} />
               ) : null,
             )}
-          </div>
+          </Reveal>
           {/* Versión en texto para lectores de pantalla. */}
           <ul className="sr-only">
             {SCALE.map((c, i) => (

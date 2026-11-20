@@ -47,7 +47,7 @@ async function AccountButton() {
     return (
       <Link
         href="/login"
-        className="flex h-11 items-center rounded-[10px] bg-accent px-5 font-bold text-accent-ink"
+        className="flex h-11 items-center rounded-[10px] bg-accent px-5 font-bold text-accent-ink btn-pop"
       >
         {t("signIn")}
       </Link>

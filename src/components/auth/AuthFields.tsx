@@ -32,7 +32,7 @@ export function SubmitButton({ pending, children }: { pending: boolean; children
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="h-12 rounded-xl bg-accent px-6 font-bold text-accent-ink disabled:opacity-60"
+      className="h-12 rounded-xl bg-accent px-6 font-bold text-accent-ink btn-pop disabled:opacity-60"
     >
       {children}
     </button>
