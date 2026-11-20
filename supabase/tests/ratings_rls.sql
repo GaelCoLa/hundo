@@ -2,7 +2,7 @@
 --   npx supabase db query --remote --yes --file supabase/tests/ratings_rls.sql
 begin;
 
-insert into public.games (id, slug, name, igdb_synced_at) values (999000002, 'test-game-rls', 'RLS Game', now());
+insert into public.games (id, slug, name, igdb_synced_at) values (999000002, 'test-game-rls', 'RLS Game', now()), (999000004, 'test-game-rls-2', 'RLS Game 2', now());
 insert into auth.users (id, instance_id, aud, role, email, raw_user_meta_data, email_confirmed_at, created_at, updated_at) values
   ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'rls-a@example.com', '{"username":"rls_a"}', now(), now(), now()),
   ('00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'rls-b@example.com', '{"username":"rls_b"}', now(), now(), now());
@@ -17,9 +17,11 @@ insert into public.ratings (user_id, game_id, score) values ('00000000-0000-0000
 do $$ begin
   -- No puede calificar a nombre de otro.
   begin
-    insert into public.ratings (user_id, game_id, score) values ('00000000-0000-0000-0000-0000000000b2', 999000002, 1);
+    -- Juego donde b2 no tiene calificación: si falla, es por la regla RLS
+    -- y no por la restricción unique (así la prueba no pasa con la regla rota).
+    insert into public.ratings (user_id, game_id, score) values ('00000000-0000-0000-0000-0000000000b2', 999000004, 1);
     assert false, 'no deberia poder calificar por otro usuario';
-  exception when insufficient_privilege or unique_violation then null; end;
+  exception when insufficient_privilege then null; end;
 
   -- No puede ocultarse ni ocultar reseñas (is_hidden es de moderación).
   begin
