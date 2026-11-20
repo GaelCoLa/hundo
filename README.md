@@ -41,6 +41,16 @@ npx supabase db query --remote --yes --file supabase/tests/score.sql        # no
 npx supabase db query --remote --yes --file supabase/tests/ratings_rls.sql        # seguridad de calificaciones
 npx supabase db query --remote --yes --file supabase/tests/community_rls.sql      # "útil", seguir y contadores
 npx supabase db query --remote --yes --file supabase/tests/community_queries.sql  # rankings, destacados, jugadores
+npx supabase db query --remote --yes --file supabase/tests/profile_edit.sql       # favoritos y carpeta de avatares
+npx supabase db query --remote --yes --file supabase/tests/moderation.sql         # reportes y moderación (solo admin)
+```
+
+### Administradores
+
+El panel `/admin` (reportes, ocultar reseñas, suspender cuentas) solo lo ven los perfiles con `is_admin = true`. Nadie puede ponérselo desde la página: se marca a mano en la base (en Supabase → SQL Editor del proyecto que corresponda):
+
+```sql
+update public.profiles set is_admin = true where username = 'el_usuario';
 ```
 
 ### Datos de prueba (solo desarrollo)
