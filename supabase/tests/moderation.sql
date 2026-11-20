@@ -71,6 +71,11 @@ do $$ begin
     perform public.open_reports();
     assert false, 'un usuario comun no puede ver la cola de reportes';
   exception when others then assert sqlerrm = 'forbidden', 'open_reports: ' || sqlerrm; end;
+
+  begin
+    perform public.moderated_content();
+    assert false, 'un usuario comun no puede ver lo moderado';
+  exception when others then assert sqlerrm = 'forbidden', 'moderated_content: ' || sqlerrm; end;
 end $$;
 
 -- ------------------------------------------------------------ como m1 ---
@@ -83,6 +88,12 @@ do $$ begin
   assert (select status from public.reports limit 1) = 'resolved', 'ocultar cierra los reportes de esa reseña';
 
   perform public.set_suspended('00000000-0000-0000-0000-0000000000d2', true);
+
+  -- Lo moderado sigue a mano para poder deshacerlo (aunque el reporte se cerró).
+  assert exists (select 1 from public.moderated_content() where kind = 'review' and rating_id = current_setting('test.review')::uuid),
+    'la reseña oculta aparece en lo moderado';
+  assert exists (select 1 from public.moderated_content() where kind = 'user' and username = 'mod_author'),
+    'la cuenta suspendida aparece en lo moderado';
 end $$;
 
 reset role;

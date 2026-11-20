@@ -8,7 +8,7 @@ import { routing } from "@/i18n/routing";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
-import { confirmMatches, parseProfileInput, validateAvatar, validateFavorites, type AvatarError, type FavoritesError, type ProfileInputError } from "@/lib/profile-input";
+import { AVATAR_CONTENT_TYPES, confirmMatches, parseProfileInput, sniffImageType, validateAvatar, validateFavorites, type AvatarError, type FavoritesError, type ProfileInputError } from "@/lib/profile-input";
 
 export type ProfileState = { error?: ProfileInputError | "not_signed_in" | "unknown"; saved?: boolean };
 export type AvatarState = { error?: AvatarError | "not_signed_in" | "unknown"; saved?: boolean };
@@ -43,11 +43,17 @@ export async function updateAvatar(_prev: AvatarState, formData: FormData): Prom
   if (!(file instanceof File)) return { error: "avatar_empty" };
   const check = validateAvatar(file);
   if (!check.ok) return { error: check.error };
+  // El tipo que manda el navegador sale de la extensión: se confirma con la
+  // firma real del archivo (sus primeros bytes), y es la firma la que decide.
+  const realType = sniffImageType(new Uint8Array(await file.slice(0, 12).arrayBuffer()));
+  if (!realType) return { error: "avatar_type" };
 
   const supabase = await createClient();
   // Nombre nuevo en cada subida: así nadie ve una versión vieja guardada en caché.
-  const path = `${user.id}/${Date.now()}.${check.ext}`;
-  const { error: uploadError } = await supabase.storage.from("avatars").upload(path, file, { contentType: file.type });
+  const path = `${user.id}/${Date.now()}.${realType}`;
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(path, file, { contentType: AVATAR_CONTENT_TYPES[realType] });
   if (uploadError) {
     console.error("updateAvatar upload failed", uploadError.message);
     return { error: "unknown" };

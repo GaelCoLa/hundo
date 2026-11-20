@@ -40,7 +40,7 @@ export async function ReviewCard({ review: r, viewerId, likedByViewer, path, sho
         </Link>
       ) : null}
       <header className="flex items-center gap-3.5">
-        <Avatar username={r.author?.username ?? "?"} avatarPath={r.author?.avatarUrl ?? null} size={44} />
+        <Avatar username={r.author?.username ?? "?"} ownerId={r.author?.id ?? ""} avatarPath={r.author?.avatarUrl ?? null} size={44} />
         <div className="flex grow flex-col">
           {r.author ? (
             <span className="flex flex-wrap items-center gap-2">

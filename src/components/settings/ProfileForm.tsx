@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { removeAvatar, updateAvatar, updateProfile, type AvatarState, type ProfileState } from "@/app/[locale]/settings/actions";
 import { FormError } from "@/components/auth/AuthFields";
-import { MAX_AVATAR_BYTES } from "@/lib/profile-input";
+import { MAX_AVATAR_BYTES, validateAvatar, type AvatarError } from "@/lib/profile-input";
 
 type Props = {
   avatar: React.ReactNode;
@@ -34,7 +34,13 @@ export function ProfileForm({ avatar, hasAvatar, displayName, bio }: Props) {
   const t = useTranslations("settings");
   const [avatarState, avatarAction, avatarPending] = useActionState<AvatarState, FormData>(updateAvatar, {});
   const [profileState, profileAction, profilePending] = useActionState<ProfileState, FormData>(updateProfile, {});
-  const [bioLength, setBioLength] = useState(bio?.length ?? 0);
+  // Campos "controlados" (su valor vive en el estado de React): si el servidor
+  // responde con un error, lo que escribiste no se borra.
+  const [nameValue, setNameValue] = useState(displayName ?? "");
+  const [bioValue, setBioValue] = useState(bio ?? "");
+  // Error detectado en el navegador ANTES de subir (archivo muy grande o de otro
+  // tipo): así un archivo enorme ni siquiera viaja al servidor.
+  const [localAvatarError, setLocalAvatarError] = useState<AvatarError | null>(null);
   const avatarForm = useRef<HTMLFormElement>(null);
   const input = "h-11 rounded-[10px] border border-line bg-bg px-3 text-[15px] text-ink";
 
@@ -58,7 +64,16 @@ export function ProfileForm({ avatar, hasAvatar, displayName, bio }: Props) {
                 disabled={avatarPending}
                 // Se envía apenas se elige el archivo (sin botón extra).
                 onChange={(e) => {
-                  if (e.target.files?.[0]) avatarForm.current?.requestSubmit();
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const check = validateAvatar(file);
+                  if (!check.ok) {
+                    setLocalAvatarError(check.error);
+                    e.target.value = "";
+                    return;
+                  }
+                  setLocalAvatarError(null);
+                  avatarForm.current?.requestSubmit();
                 }}
               />
             </label>
@@ -69,7 +84,7 @@ export function ProfileForm({ avatar, hasAvatar, displayName, bio }: Props) {
             ) : null}
           </div>
           <p className="text-xs text-muted">{t("photoHint", { mb: MAX_AVATAR_BYTES / 1024 / 1024 })}</p>
-          {avatarState.error ? <FormError>{t(`errors.${avatarState.error}`)}</FormError> : null}
+          {localAvatarError ?? avatarState.error ? <FormError>{t(`errors.${localAvatarError ?? avatarState.error}`)}</FormError> : null}
           {avatarState.saved && !avatarPending ? <Saved text={t("photoSaved")} /> : null}
         </div>
       </form>
@@ -77,20 +92,20 @@ export function ProfileForm({ avatar, hasAvatar, displayName, bio }: Props) {
       <form action={profileAction} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1.5 text-sm text-muted">
           {t("displayName")}
-          <input name="displayName" defaultValue={displayName ?? ""} maxLength={40} placeholder={t("displayNamePlaceholder")} className={input} />
+          <input name="displayName" value={nameValue} onChange={(e) => setNameValue(e.target.value)} maxLength={40} placeholder={t("displayNamePlaceholder")} className={input} />
         </label>
         <label className="flex flex-col gap-1.5 text-sm text-muted">
           <span className="flex justify-between">
             {t("bio")}
-            <span className="tabular-nums">{bioLength}/300</span>
+            <span className="tabular-nums">{bioValue.length}/300</span>
           </span>
           <textarea
             name="bio"
             rows={3}
             maxLength={300}
-            defaultValue={bio ?? ""}
+            value={bioValue}
             placeholder={t("bioPlaceholder")}
-            onChange={(e) => setBioLength(e.target.value.length)}
+            onChange={(e) => setBioValue(e.target.value)}
             className="rounded-[10px] border border-line bg-bg px-3 py-2.5 text-[15px] leading-relaxed text-ink"
           />
         </label>

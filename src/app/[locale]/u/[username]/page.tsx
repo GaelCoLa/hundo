@@ -100,7 +100,7 @@ async function Profile({ params, searchParams }: Props) {
   return (
     <>
       <header className="flex flex-wrap items-center gap-5">
-        <Avatar username={profile.username} avatarPath={profile.avatar_url} size={80} className="rounded-[22px] font-display text-5xl font-black" />
+        <Avatar username={profile.username} ownerId={profile.id} avatarPath={profile.avatar_url} size={80} className="rounded-[22px] font-display text-5xl font-black" />
         <div className="flex grow flex-col gap-1">
           {profile.display_name ? <p className="text-lg font-semibold text-soft">{profile.display_name}</p> : null}
           <h1 className="font-display text-5xl font-black leading-none sm:text-6xl">@{profile.username}</h1>

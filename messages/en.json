@@ -304,6 +304,10 @@
     "unhide": "Show review",
     "suspend": "Suspend author",
     "unsuspend": "Reinstate author",
-    "dismiss": "Dismiss report"
+    "dismiss": "Dismiss report",
+    "moderatedTitle": "Currently moderated",
+    "moderatedEmpty": "No hidden reviews or suspended accounts.",
+    "hiddenReview": "Hidden review",
+    "suspendedUser": "Suspended account"
   }
 }

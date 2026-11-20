@@ -28,6 +28,17 @@ type OpenReport = {
   reports_on_rating: number;
 };
 
+type Moderated = {
+  kind: "review" | "user";
+  rating_id: string | null;
+  user_id: string;
+  username: string;
+  review: string | null;
+  score: number | null;
+  game_slug: string | null;
+  game_name: string | null;
+};
+
 export default function AdminPage() {
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
@@ -42,9 +53,12 @@ async function Panel() {
   const user = await getCurrentUser();
   if (!user?.isAdmin) notFound();
   const [t, tr, format, supabase] = await Promise.all([getTranslations("admin"), getTranslations("report"), getFormatter(), createClient()]);
-  const { data, error } = await supabase.rpc("open_reports");
-  if (error) console.error("open_reports failed", error.code, error.message);
-  const reports = (data ?? []) as OpenReport[];
+  const [open, moderatedRes] = await Promise.all([supabase.rpc("open_reports"), supabase.rpc("moderated_content")]);
+  if (open.error) console.error("open_reports failed", open.error.code, open.error.message);
+  if (moderatedRes.error) console.error("moderated_content failed", moderatedRes.error.code, moderatedRes.error.message);
+  const reports = (open.data ?? []) as OpenReport[];
+  // Lo que está oculto o suspendido ahora: para poder deshacerlo.
+  const moderated = (moderatedRes.data ?? []) as Moderated[];
   const action = "btn-pop btn-pop-ghost h-9 rounded-lg border-2 border-line px-3 text-sm font-semibold";
 
   return (
@@ -109,6 +123,46 @@ async function Panel() {
           ))}
         </ul>
       )}
+
+      <section aria-labelledby="moderated" className="flex flex-col gap-4">
+        <h2 id="moderated" className="font-display text-4xl font-black uppercase">
+          {t("moderatedTitle")}
+        </h2>
+        {moderated.length === 0 ? (
+          <p className="text-soft">{t("moderatedEmpty")}</p>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {moderated.map((m) => (
+              <li key={`${m.kind}-${m.rating_id ?? m.user_id}`} className="flex flex-wrap items-center gap-3 rounded-[14px] bg-surface p-4">
+                <span className="grow text-sm">
+                  {m.kind === "review" ? (
+                    <>
+                      <span className="text-scale-mediocre">{t("hiddenReview")}</span> · @{m.username} {t("on")}{" "}
+                      <Link href={`/games/${m.game_slug}`} className="font-semibold hover:underline">
+                        {m.game_name}
+                      </Link>
+                      <span className="mt-1 block truncate text-muted">{m.review}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-scale-mediocre">{t("suspendedUser")}</span> · @{m.username}
+                    </>
+                  )}
+                </span>
+                {m.kind === "review" ? (
+                  <form action={hideReview.bind(null, m.rating_id!, false)}>
+                    <button className={action}>{t("unhide")}</button>
+                  </form>
+                ) : (
+                  <form action={suspendUser.bind(null, m.user_id, false)}>
+                    <button className={action}>{t("unsuspend")}</button>
+                  </form>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </>
   );
 }

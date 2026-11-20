@@ -61,7 +61,7 @@ async function AccountButton() {
       label={t("accountMenu")}
       summary={
         <>
-          <Avatar username={user.username} avatarPath={user.avatarUrl} size={28} className="rounded-lg text-sm" />
+          <Avatar username={user.username} ownerId={user.id} avatarPath={user.avatarUrl} size={28} className="rounded-lg text-sm" />
           @{user.username}
         </>
       }

@@ -53,7 +53,7 @@ async function AccountDetails() {
         </div>
       </dl>
       <ProfileForm
-        avatar={<Avatar username={user.username} avatarPath={user.avatarUrl} size={80} className="rounded-[22px] text-3xl" />}
+        avatar={<Avatar username={user.username} ownerId={user.id} avatarPath={user.avatarUrl} size={80} className="rounded-[22px] text-3xl" />}
         hasAvatar={user.avatarUrl !== null}
         displayName={profile?.display_name ?? null}
         bio={profile?.bio ?? null}

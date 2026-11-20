@@ -304,6 +304,10 @@
     "unhide": "Mostrar reseña",
     "suspend": "Suspender autor",
     "unsuspend": "Reactivar autor",
-    "dismiss": "Descartar reporte"
+    "dismiss": "Descartar reporte",
+    "moderatedTitle": "Moderado ahora",
+    "moderatedEmpty": "No hay reseñas ocultas ni cuentas suspendidas.",
+    "hiddenReview": "Reseña oculta",
+    "suspendedUser": "Cuenta suspendida"
   }
 }

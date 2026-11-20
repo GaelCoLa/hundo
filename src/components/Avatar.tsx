@@ -5,6 +5,8 @@ import { avatarPublicUrl } from "@/lib/profile-input";
 
 type Props = {
   username: string;
+  /** Id del dueño del perfil: la foto tiene que estar en SU carpeta. */
+  ownerId: string;
   /** Ruta dentro del bucket "avatars" (profiles.avatar_url). */
   avatarPath: string | null;
   /** Lado en píxeles. */
@@ -12,8 +14,8 @@ type Props = {
   className?: string;
 };
 
-export function Avatar({ username, avatarPath, size, className = "rounded-[14px]" }: Props) {
-  const url = avatarPublicUrl(avatarPath, process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+export function Avatar({ username, ownerId, avatarPath, size, className = "rounded-[14px]" }: Props) {
+  const url = avatarPublicUrl(avatarPath, ownerId, process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
   if (url) {
     return <Image src={url} alt="" width={size} height={size} className={`shrink-0 object-cover ${className}`} style={{ width: size, height: size }} />;
   }

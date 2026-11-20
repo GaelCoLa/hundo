@@ -1,7 +1,7 @@
 "use client";
 // Elegir el Top 5: cinco desplegables con los juegos que calificaste. El orden
 // de los desplegables es el orden en que se muestran en tu perfil.
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { updateFavorites, type FavoritesState } from "@/app/[locale]/settings/actions";
@@ -12,6 +12,9 @@ type Props = { options: { id: number; name: string }[]; current: number[] };
 export function FavoritesForm({ options, current }: Props) {
   const t = useTranslations("settings");
   const [state, action, pending] = useActionState<FavoritesState, FormData>(updateFavorites, {});
+  // Desplegables controlados: si hay un error (por ejemplo, un juego repetido),
+  // lo que elegiste sigue a la vista para poder corregirlo.
+  const [picked, setPicked] = useState<string[]>([0, 1, 2, 3, 4].map((i) => (current[i] ? String(current[i]) : "")));
 
   return (
     <section aria-labelledby="favorites-edit" className="flex flex-col gap-4 rounded-[20px] bg-surface p-6 sm:p-8">
@@ -30,7 +33,8 @@ export function FavoritesForm({ options, current }: Props) {
               <span className="w-8 font-display text-2xl font-black text-muted">{pos}.º</span>
               <select
                 name={`fav${pos}`}
-                defaultValue={current[pos - 1] ?? ""}
+                value={picked[pos - 1]}
+                onChange={(e) => setPicked((prev) => prev.map((v, i) => (i === pos - 1 ? e.target.value : v)))}
                 aria-label={t("favoritePosition", { pos })}
                 className="h-11 grow rounded-[10px] border border-line bg-bg px-3 text-[15px] text-ink"
               >
