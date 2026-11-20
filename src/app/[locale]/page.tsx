@@ -1,23 +1,19 @@
-// Portada, según la maqueta aprobada "Mix". La tarjeta de la derecha es un
-// EJEMPLO (lo dice en pantalla). Abajo, las calificaciones reales más recientes.
+// Portada, según la maqueta aprobada "Mix". La tarjeta de la derecha muestra el
+// juego real mejor puntuado del mes (o un ejemplo si todavía no hay ninguno con
+// nota). Abajo, destacados y las calificaciones reales más recientes.
 import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { ScoreRing } from "@/components/ScoreRing";
 import { ScaleBar } from "@/components/ScaleBar";
-import { SCALE } from "@/lib/scale";
 import { RecentRatings } from "@/components/home/RecentRatings";
 import { FeaturedGames } from "@/components/home/FeaturedGames";
 import { FloatingCovers } from "@/components/home/FloatingCovers";
 import { WordReveal } from "@/components/motion/WordReveal";
-import { Reveal } from "@/components/motion/Reveal";
-
-// Distribución de ejemplo (porcentaje de jugadores por categoría) para la tarjeta.
-const EXAMPLE_DISTRIBUTION = [2, 2, 3, 6, 9, 22, 56];
+import { ExampleCard } from "@/components/home/ExampleCard";
+import { SpotlightCard } from "@/components/home/SpotlightCard";
 
 export default function HomePage() {
   const t = useTranslations("home");
-  const ts = useTranslations("scale");
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-20 pt-6 sm:px-8 sm:pt-10">
@@ -48,32 +44,10 @@ export default function HomePage() {
           <Suspense fallback={null}>
             <FloatingCovers />
           </Suspense>
-          <article className="flex flex-col gap-6 rounded-[28px] bg-[#5a1a1f] p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] sm:p-7">
-            <div className="flex items-start gap-5">
-              <div aria-hidden="true" className="h-32 w-24 shrink-0 rounded-lg bg-[#3a1014]" />
-              <div className="flex flex-col gap-2">
-                <h2 className="font-display text-[46px] font-black leading-[0.95] text-[#fbe6e3]">{t("exampleGame")}</h2>
-                <p className="flex flex-wrap items-center gap-2 text-sm text-[#e9b9b3]">
-                  {t("exampleMeta")}
-                  <span className="rounded-full bg-[#3a1014] px-3 py-1 text-xs font-semibold">{t("example")}</span>
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-6">
-              <ScoreRing score={96} innerColor="#5a1a1f" trackColor="#3a1014" />
-              <div className="flex flex-col gap-1">
-                <span className="font-display text-[40px] font-black leading-none text-[#d9c2ff]">{ts("masterpiece")}</span>
-                <span className="text-sm text-[#e9b9b3]">{t("communityScoreFrom", { count: "1,284" })}</span>
-              </div>
-            </div>
-            <Reveal className="flex h-3 gap-[3px] overflow-hidden rounded-full" delay={0.4}>
-              <div aria-hidden="true" className="contents">
-                {SCALE.map((c, i) => (
-                  <div key={c.key} style={{ flex: EXAMPLE_DISTRIBUTION[i], background: c.color }} />
-                ))}
-              </div>
-            </Reveal>
-          </article>
+          {/* Juego real mejor puntuado; mientras carga (o si no hay ninguno con nota), el ejemplo. */}
+          <Suspense fallback={<ExampleCard />}>
+            <SpotlightCard />
+          </Suspense>
         </div>
       </section>
 

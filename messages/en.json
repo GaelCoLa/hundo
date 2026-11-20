@@ -31,7 +31,8 @@
     "recentTitle": "Recent ratings",
     "featuredTitle": "Featured",
     "featuredHint": "Most rated in the last month",
-    "noScoreYet": "No community score yet"
+    "noScoreYet": "No community score yet",
+    "spotlight": "Top of the month"
   },
   "scale": {
     "mediocre": "Mediocre",

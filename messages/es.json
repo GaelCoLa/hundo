@@ -31,7 +31,8 @@
     "recentTitle": "Calificaciones recientes",
     "featuredTitle": "Destacados",
     "featuredHint": "Los más calificados del último mes",
-    "noScoreYet": "Sin nota de la comunidad todavía"
+    "noScoreYet": "Sin nota de la comunidad todavía",
+    "spotlight": "Lo mejor del mes"
   },
   "scale": {
     "mediocre": "Mediocre",
