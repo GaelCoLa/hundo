@@ -311,5 +311,14 @@
     "moderatedEmpty": "No hay reseñas ocultas ni cuentas suspendidas.",
     "hiddenReview": "Reseña oculta",
     "suspendedUser": "Cuenta suspendida"
+  },
+  "follows": {
+    "followersTitle": "Seguidores",
+    "followingTitle": "Siguiendo",
+    "tabs": "Seguidores y seguidos",
+    "followersTab": "Seguidores",
+    "followingTab": "Siguiendo",
+    "noFollowers": "Todavía nadie sigue a @{username}.",
+    "noFollowing": "@{username} todavía no sigue a nadie."
   }
 }

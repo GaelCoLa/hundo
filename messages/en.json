@@ -311,5 +311,14 @@
     "moderatedEmpty": "No hidden reviews or suspended accounts.",
     "hiddenReview": "Hidden review",
     "suspendedUser": "Suspended account"
+  },
+  "follows": {
+    "followersTitle": "Followers",
+    "followingTitle": "Following",
+    "tabs": "Followers and following",
+    "followersTab": "Followers",
+    "followingTab": "Following",
+    "noFollowers": "No one follows @{username} yet.",
+    "noFollowing": "@{username} isn't following anyone yet."
   }
 }

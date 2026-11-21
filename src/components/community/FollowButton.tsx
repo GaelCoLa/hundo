@@ -4,10 +4,11 @@
 import { useOptimistic, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { toggleFollow } from "@/app/[locale]/community-actions";
+import { Link } from "@/i18n/navigation";
 
-type Props = { followeeId: string; following: boolean; followers: number };
+type Props = { followeeId: string; following: boolean; followers: number; /** Página con la lista de seguidores. */ followersHref: string };
 
-export function FollowButton({ followeeId, following, followers }: Props) {
+export function FollowButton({ followeeId, following, followers, followersHref }: Props) {
   const t = useTranslations("community");
   const [pending, startTransition] = useTransition();
   const [state, setOptimistic] = useOptimistic({ following, followers }, (s, next: boolean) => ({
@@ -17,9 +18,9 @@ export function FollowButton({ followeeId, following, followers }: Props) {
 
   return (
     <div className="flex items-center gap-4">
-      <span className="text-sm text-soft">
+      <Link href={followersHref} className="text-sm text-soft hover:text-ink hover:underline">
         <strong className="font-display text-2xl font-black text-ink">{state.followers}</strong> {t("followers", { count: state.followers })}
-      </span>
+      </Link>
       <button
         type="button"
         disabled={pending}

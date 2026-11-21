@@ -108,15 +108,17 @@ async function Profile({ params, searchParams }: Props) {
             {t("memberSince", { date: new Date(profile.created_at) })}
             {isTopReviewer(profile.helpful_received) ? <TopReviewerBadge /> : null}
           </p>
-          <p className="text-sm text-soft">{tc("followingCount", { count: followingCount.count ?? 0 })}</p>
+          <Link href={`/u/${profile.username}/following`} className="self-start text-sm text-soft hover:text-ink hover:underline">
+            {tc("followingCount", { count: followingCount.count ?? 0 })}
+          </Link>
           {profile.bio ? <p className="max-w-prose whitespace-pre-line pt-1 leading-relaxed text-[#d3d8e6]">{profile.bio}</p> : null}
         </div>
         {viewer && viewer.id === profile.id ? (
           // Tu propio perfil: en vez de "Seguir", un atajo a Configuración.
           <div className="flex items-center gap-4">
-            <span className="text-sm text-soft">
+            <Link href={`/u/${profile.username}/followers`} className="text-sm text-soft hover:text-ink hover:underline">
               <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
-            </span>
+            </Link>
             <Link href="/settings" className="btn-pop btn-pop-ghost flex h-10 items-center gap-2 rounded-xl border-2 border-line px-4 font-semibold">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
@@ -125,12 +127,12 @@ async function Profile({ params, searchParams }: Props) {
             </Link>
           </div>
         ) : viewer ? (
-          <FollowButton followeeId={profile.id} following={viewerFollows.data !== null} followers={followerCount} />
+          <FollowButton followeeId={profile.id} following={viewerFollows.data !== null} followers={followerCount} followersHref={`/u/${profile.username}/followers`} />
         ) : (
           <div className="flex items-center gap-4">
-            <span className="text-sm text-soft">
+            <Link href={`/u/${profile.username}/followers`} className="text-sm text-soft hover:text-ink hover:underline">
               <strong className="font-display text-2xl font-black text-ink">{followerCount}</strong> {tc("followers", { count: followerCount })}
-            </span>
+            </Link>
             <Link href={`/login?next=${encodeURIComponent(`/u/${profile.username}`)}`} className="btn-pop flex h-10 items-center rounded-xl bg-accent px-5 font-bold text-accent-ink">
               {tc("follow")}
             </Link>
