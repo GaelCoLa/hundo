@@ -142,3 +142,65 @@ body {
     transform: rotate(var(--r, 0deg));
   }
 }
+
+/*
+  Cascada de listas (StaggerList): cada elemento sube 16px y aparece, uno
+  después del otro (45 ms entre cada uno; del 13.º en adelante, todos juntos).
+  "both" deja el estado inicial durante el retraso y el final al terminar:
+  la animación siempre termina con el elemento visible.
+*/
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@utility stagger {
+  & > * {
+    animation: rise-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  & > :nth-child(2) {
+    animation-delay: 45ms;
+  }
+  & > :nth-child(3) {
+    animation-delay: 90ms;
+  }
+  & > :nth-child(4) {
+    animation-delay: 135ms;
+  }
+  & > :nth-child(5) {
+    animation-delay: 180ms;
+  }
+  & > :nth-child(6) {
+    animation-delay: 225ms;
+  }
+  & > :nth-child(7) {
+    animation-delay: 270ms;
+  }
+  & > :nth-child(8) {
+    animation-delay: 315ms;
+  }
+  & > :nth-child(9) {
+    animation-delay: 360ms;
+  }
+  & > :nth-child(10) {
+    animation-delay: 405ms;
+  }
+  & > :nth-child(11) {
+    animation-delay: 450ms;
+  }
+  & > :nth-child(12) {
+    animation-delay: 495ms;
+  }
+  & > :nth-child(n + 13) {
+    animation-delay: 540ms;
+  }
+}
+
+/* Con "reducir movimiento", la lista aparece entera de una (sin esperas). */
+@media (prefers-reduced-motion: reduce) {
+  .stagger > * {
+    animation: none;
+  }
+}
